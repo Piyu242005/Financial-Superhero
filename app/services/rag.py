@@ -2,9 +2,9 @@ import os
 import uuid
 from typing import Optional
 
+import google.generativeai as genai
 from app.config import settings
 
-# Simplified version without heavy dependencies
 # Vector store path
 CHROMA_PATH = "chroma_db"
 
@@ -136,34 +136,96 @@ Curated investment recommendations
 Premium stock analysis and insights
 """
 
+# System prompt for financial advisor
+SYSTEM_PROMPT = """You are a helpful and knowledgeable financial advisor assistant. Your role is to:
+
+1. Provide clear, accurate financial advice based on the context provided
+2. Explain complex financial concepts in simple terms
+3. Be specific to Indian financial markets when relevant (NSE, BSE, SEBI regulations)
+4. Always remind users to consult a certified financial advisor for major decisions
+5. Be helpful, friendly, and professional
+
+Use the following knowledge base to inform your responses:
+
+{context}
+
+Important guidelines:
+- Give practical, actionable advice
+- Use examples and numbers when helpful
+- If you don't know something, say so honestly
+- Never recommend specific stocks without proper disclaimers
+- Encourage diversification and risk management
+"""
+
 
 class RAGService:
     def __init__(self):
-        # Simplified initialization without heavy ML dependencies
-        pass
+        """Initialize the Gemini AI client"""
+        self.model = None
+        self.chat_sessions = {}
+        
+        # Configure Gemini if API key is available
+        if settings.gemini_api_key and settings.gemini_api_key != "your-gemini-api-key-here":
+            try:
+                genai.configure(api_key=settings.gemini_api_key)
+                self.model = genai.GenerativeModel(
+                    model_name="gemini-1.5-flash",
+                    system_instruction=SYSTEM_PROMPT.format(context=FINANCIAL_KNOWLEDGE)
+                )
+                print("✅ Gemini AI initialized successfully!")
+            except Exception as e:
+                print(f"⚠️ Failed to initialize Gemini: {e}")
+                self.model = None
+        else:
+            print("⚠️ Gemini API key not configured. Using fallback responses.")
     
     def add_documents(self, texts: list[str]):
         """Add new documents to the knowledge base"""
-        # Placeholder for future implementation
+        # Placeholder for future implementation with vector DB
         pass
     
     async def get_answer(self, question: str, session_id: Optional[str] = None) -> dict:
-        """Get answer using pattern matching fallback"""
+        """Get answer using Gemini AI or fallback to pattern matching"""
         if session_id is None:
             session_id = str(uuid.uuid4())
         
-        answer = self._generate_fallback_response(question, FINANCIAL_KNOWLEDGE)
+        # Try Gemini AI first
+        if self.model:
+            try:
+                answer = await self._get_gemini_response(question, session_id)
+                return {
+                    "answer": answer,
+                    "sources": ["Gemini AI Financial Advisor", "Financial Knowledge Base"],
+                    "session_id": session_id
+                }
+            except Exception as e:
+                print(f"Gemini error: {e}")
+                # Fall back to pattern matching
         
-        sources = ["Financial Knowledge Base"]
+        # Fallback response
+        answer = self._generate_fallback_response(question, FINANCIAL_KNOWLEDGE)
         
         return {
             "answer": answer,
-            "sources": sources,
+            "sources": ["Financial Knowledge Base"],
             "session_id": session_id
         }
     
+    async def _get_gemini_response(self, question: str, session_id: str) -> str:
+        """Get response from Gemini AI with conversation history"""
+        # Get or create chat session
+        if session_id not in self.chat_sessions:
+            self.chat_sessions[session_id] = self.model.start_chat(history=[])
+        
+        chat = self.chat_sessions[session_id]
+        
+        # Send message and get response
+        response = chat.send_message(question)
+        
+        return response.text
+    
     def _generate_fallback_response(self, question: str, context: str) -> str:
-        """Generate a simple response when LLM is not available"""
+        """Generate a simple response when Gemini is not available"""
         question_lower = question.lower()
         
         if "demat" in question_lower:
@@ -185,7 +247,7 @@ class RAGService:
             return "Key risk management strategies: 1) Diversify across sectors and asset classes. 2) Never invest more than you can afford to lose. 3) Use stop-loss orders. 4) Maintain an emergency fund. 5) Invest for the long term to ride out volatility."
         
         else:
-            return f"Based on the context I have:\n\n{context[:500]}...\n\nFor more specific advice, please consult a certified financial advisor. Would you like to know about SIP investing, opening a Demat account, or tax-saving investments?"
+            return "I'm your financial advisor assistant! I can help you with:\n\n• **Getting Started** - Opening Demat accounts, first investments\n• **SIP & Mutual Funds** - Understanding systematic investment plans\n• **Tax Saving** - Section 80C, capital gains, tax-efficient investing\n• **Risk Management** - Diversification, stop-loss strategies\n• **Stock Market Basics** - NSE, BSE, Sensex, Nifty\n\n⚠️ Note: Gemini AI is not configured. Please add your GEMINI_API_KEY to the .env file for intelligent responses.\n\nWhat would you like to know about?"
 
 
 # Global RAG service instance

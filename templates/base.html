@@ -21,6 +21,113 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     
     <style>
+        /* Theme CSS Variables - Light mode overrides */
+        :root {
+            --theme-bg: #0f172a;
+            --theme-text: #ffffff;
+            --theme-text-muted: #9ca3af;
+            --theme-card-bg: rgba(255, 255, 255, 0.05);
+            --theme-border: rgba(255, 255, 255, 0.1);
+        }
+        
+        [data-theme="light"] {
+            --theme-bg: #f8fafc;
+            --theme-text: #1e293b;
+            --theme-text-muted: #64748b;
+            --theme-card-bg: rgba(255, 255, 255, 0.8);
+            --theme-border: rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Theme transition */
+        html.theme-transition,
+        html.theme-transition *,
+        html.theme-transition *::before,
+        html.theme-transition *::after {
+            transition: background-color 250ms ease, color 250ms ease, border-color 250ms ease !important;
+        }
+        
+        /* Light theme overrides */
+        [data-theme="light"] body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f8fafc 100%) !important;
+            color: var(--theme-text);
+        }
+        
+        [data-theme="light"] .text-white {
+            color: var(--theme-text) !important;
+        }
+        
+        [data-theme="light"] .text-gray-400,
+        [data-theme="light"] .text-gray-500 {
+            color: var(--theme-text-muted) !important;
+        }
+        
+        [data-theme="light"] .glass-card {
+            background: var(--theme-card-bg) !important;
+            border-color: var(--theme-border) !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        [data-theme="light"] .navbar {
+            background: rgba(255, 255, 255, 0.8) !important;
+            border-color: var(--theme-border) !important;
+        }
+        
+        [data-theme="light"] footer {
+            background: rgba(241, 245, 249, 0.8) !important;
+            border-color: var(--theme-border) !important;
+        }
+        
+        [data-theme="light"] .hero-gradient {
+            background: radial-gradient(ellipse at top, rgba(0, 255, 136, 0.15) 0%, transparent 50%),
+                        radial-gradient(ellipse at bottom right, rgba(124, 58, 237, 0.15) 0%, transparent 50%);
+        }
+        
+        /* Theme toggle button styles */
+        .theme-toggle {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            cursor: pointer;
+            border: none;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        .theme-toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #fbbf24;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 250ms ease, background 250ms ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .theme-toggle-slider i {
+            font-size: 14px;
+            color: #1e293b;
+        }
+        
+        [data-theme="light"] .theme-toggle {
+            background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+        }
+        
+        [data-theme="light"] .theme-toggle-slider {
+            transform: translateX(30px);
+            background: #6366f1;
+        }
+        
+        [data-theme="light"] .theme-toggle-slider i {
+            color: #ffffff;
+        }
+        
         * {
             font-family: 'Inter', sans-serif;
         }
@@ -88,6 +195,19 @@
                 </ul>
                 
                 {% if user %}
+                <!-- Theme Toggle -->
+                <button 
+                    class="theme-toggle mr-2" 
+                    onclick="toggleTheme()" 
+                    aria-label="Toggle dark/light theme"
+                    role="switch"
+                    aria-checked="false"
+                    id="theme-toggle-btn"
+                >
+                    <span class="theme-toggle-slider">
+                        <i class='bx bx-sun' id="theme-icon"></i>
+                    </span>
+                </button>
                 <div class="dropdown dropdown-end ml-4">
                     <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar placeholder">
                         <div class="bg-gradient-to-br from-green-400 to-blue-500 text-white rounded-full w-10">
@@ -103,7 +223,20 @@
                     </ul>
                 </div>
                 {% else %}
-                <div class="flex gap-2 ml-4">
+                <!-- Theme Toggle -->
+                <button 
+                    class="theme-toggle mr-2" 
+                    onclick="toggleTheme()" 
+                    aria-label="Toggle dark/light theme"
+                    role="switch"
+                    aria-checked="false"
+                    id="theme-toggle-btn-alt"
+                >
+                    <span class="theme-toggle-slider">
+                        <i class='bx bx-sun' id="theme-icon-alt"></i>
+                    </span>
+                </button>
+                <div class="flex gap-2 ml-2">
                     <a href="/login" class="btn btn-ghost btn-sm">Login</a>
                     <a href="/signup" class="btn btn-primary btn-sm bg-gradient-to-r from-green-400 to-blue-500 border-none">Sign Up</a>
                 </div>
@@ -186,6 +319,66 @@
     <div id="toast-container" class="toast toast-end z-50"></div>
     
     <script>
+        // Theme Toggle - Non-intrusive implementation
+        (function() {
+            const savedTheme = localStorage.getItem('finology-theme');
+            if (savedTheme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+        
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            // Add transition class
+            html.classList.add('theme-transition');
+            
+            // Change theme
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('finology-theme', newTheme);
+            
+            // Update icons and ARIA
+            updateThemeUI(newTheme);
+            
+            // Remove transition class after animation
+            setTimeout(() => {
+                html.classList.remove('theme-transition');
+            }, 300);
+        }
+        
+        function updateThemeUI(theme) {
+            const icons = document.querySelectorAll('#theme-icon, #theme-icon-alt');
+            const toggles = document.querySelectorAll('#theme-toggle-btn, #theme-toggle-btn-alt');
+            
+            icons.forEach(icon => {
+                if (icon) {
+                    icon.className = theme === 'light' ? 'bx bx-moon' : 'bx bx-sun';
+                }
+            });
+            
+            toggles.forEach(toggle => {
+                if (toggle) {
+                    toggle.setAttribute('aria-checked', theme === 'light' ? 'true' : 'false');
+                }
+            });
+        }
+        
+        // Initialize UI on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            updateThemeUI(currentTheme);
+        });
+        
+        // Keyboard accessibility
+        document.addEventListener('keydown', function(e) {
+            if (e.target.classList.contains('theme-toggle') && (e.key === 'Enter' || e.key === ' ')) {
+                e.preventDefault();
+                toggleTheme();
+            }
+        });
+        
         function showToast(message, type = 'info') {
             const container = document.getElementById('toast-container');
             const alert = document.createElement('div');

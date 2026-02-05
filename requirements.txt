@@ -13,6 +13,7 @@ passlib[bcrypt]==1.7.4
 python-jose[cryptography]==3.3.0
 
 # RAG & AI
+google-generativeai==0.8.0
 langchain==0.1.4
 langchain-community==0.0.16
 langchain-openai==0.0.5

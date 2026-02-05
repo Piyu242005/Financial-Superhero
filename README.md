@@ -235,10 +235,16 @@ Distributed under the **MIT License**. See `LICENSE` for more information.
 
 ## 👨‍💻 Author
 
-<img src="https://github.com/Piyu242005.png" width="100" style="border-radius: 50%">
+<img src="https://github.com/Piyu242005.png" width="180" height="180" style="border-radius: 50%; border: 4px solid #00ff88; box-shadow: 0 0 20px rgba(0,255,136,0.5);">
+
+<br><br>
 
 ### **Piyush Ramteke**
 *Founder & Developer*
+
+<p align="center">
+  <i>"Empowering financial literacy through technology"</i>
+</p>
 
 [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Piyu242005)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/piyu24)

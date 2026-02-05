@@ -11,6 +11,9 @@ class Settings(BaseSettings):
     # OpenAI
     openai_api_key: str = ""
     
+    # Google Gemini
+    gemini_api_key: str = ""
+    
     # Local LLM (Ollama)
     use_local_llm: bool = False
     ollama_base_url: str = "http://localhost:11434"
