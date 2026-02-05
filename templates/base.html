@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ page_title }}</title>
-    
+
     <!-- Tailwind CSS + DaisyUI -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.6.0/dist/full.min.css" rel="stylesheet" type="text/css" />
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
     <!-- Boxicons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    
+
     <!-- Alpine.js for interactivity -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    
+
     <style>
         /* Theme CSS Variables - Light mode overrides */
         :root {
@@ -29,7 +31,7 @@
             --theme-card-bg: rgba(255, 255, 255, 0.05);
             --theme-border: rgba(255, 255, 255, 0.1);
         }
-        
+
         [data-theme="light"] {
             --theme-bg: #f8fafc;
             --theme-text: #1e293b;
@@ -37,7 +39,7 @@
             --theme-card-bg: rgba(255, 255, 255, 0.8);
             --theme-border: rgba(0, 0, 0, 0.1);
         }
-        
+
         /* Theme transition */
         html.theme-transition,
         html.theme-transition *,
@@ -45,43 +47,43 @@
         html.theme-transition *::after {
             transition: background-color 250ms ease, color 250ms ease, border-color 250ms ease !important;
         }
-        
+
         /* Light theme overrides */
         [data-theme="light"] body {
             background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f8fafc 100%) !important;
             color: var(--theme-text);
         }
-        
+
         [data-theme="light"] .text-white {
             color: var(--theme-text) !important;
         }
-        
+
         [data-theme="light"] .text-gray-400,
         [data-theme="light"] .text-gray-500 {
             color: var(--theme-text-muted) !important;
         }
-        
+
         [data-theme="light"] .glass-card {
             background: var(--theme-card-bg) !important;
             border-color: var(--theme-border) !important;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
-        
+
         [data-theme="light"] .navbar {
             background: rgba(255, 255, 255, 0.8) !important;
             border-color: var(--theme-border) !important;
         }
-        
+
         [data-theme="light"] footer {
             background: rgba(241, 245, 249, 0.8) !important;
             border-color: var(--theme-border) !important;
         }
-        
+
         [data-theme="light"] .hero-gradient {
             background: radial-gradient(ellipse at top, rgba(0, 255, 136, 0.15) 0%, transparent 50%),
-                        radial-gradient(ellipse at bottom right, rgba(124, 58, 237, 0.15) 0%, transparent 50%);
+                radial-gradient(ellipse at bottom right, rgba(124, 58, 237, 0.15) 0%, transparent 50%);
         }
-        
+
         /* Theme toggle button styles */
         .theme-toggle {
             position: relative;
@@ -94,7 +96,7 @@
             padding: 0;
             overflow: hidden;
         }
-        
+
         .theme-toggle-slider {
             position: absolute;
             top: 3px;
@@ -109,70 +111,79 @@
             transition: transform 250ms ease, background 250ms ease;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
-        
+
         .theme-toggle-slider i {
             font-size: 14px;
             color: #1e293b;
         }
-        
+
         [data-theme="light"] .theme-toggle {
             background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
         }
-        
+
         [data-theme="light"] .theme-toggle-slider {
             transform: translateX(30px);
             background: #6366f1;
         }
-        
+
         [data-theme="light"] .theme-toggle-slider i {
             color: #ffffff;
         }
-        
+
         * {
             font-family: 'Inter', sans-serif;
         }
-        
+
         .gradient-text {
             background: linear-gradient(135deg, #00ff88 0%, #00d4ff 50%, #7c3aed 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        
+
         .gradient-bg {
             background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
         }
-        
+
         .glass-card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
+
         .glow-green {
             box-shadow: 0 0 40px rgba(0, 255, 136, 0.3);
         }
-        
+
         .animate-float {
             animation: float 6s ease-in-out infinite;
         }
-        
+
         @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
         }
-        
+
         .hero-gradient {
             background: radial-gradient(ellipse at top, rgba(0, 255, 136, 0.1) 0%, transparent 50%),
-                        radial-gradient(ellipse at bottom right, rgba(124, 58, 237, 0.1) 0%, transparent 50%);
+                radial-gradient(ellipse at bottom right, rgba(124, 58, 237, 0.1) 0%, transparent 50%);
         }
     </style>
-    
+
     {% block extra_head %}{% endblock %}
 </head>
+
 <body class="min-h-screen gradient-bg text-white">
     <!-- Navigation -->
-    <nav class="navbar bg-base-100/50 backdrop-blur-lg sticky top-0 z-50 border-b border-white/10" x-data="{ mobileOpen: false }">
+    <nav class="navbar bg-base-100/50 backdrop-blur-lg sticky top-0 z-50 border-b border-white/10"
+        x-data="{ mobileOpen: false }">
         <div class="container mx-auto">
             <div class="flex-1">
                 <a href="/" class="btn btn-ghost text-xl">
@@ -180,30 +191,27 @@
                     <span class="gradient-text font-bold">Finology</span>
                 </a>
             </div>
-            
+
             <!-- Desktop Menu -->
             <div class="flex-none hidden lg:flex">
                 <ul class="menu menu-horizontal px-1 gap-2">
                     <li><a href="/" class="hover:text-green-400 transition-colors">Home</a></li>
                     <li><a href="/calculator" class="hover:text-green-400 transition-colors">Calculators</a></li>
+                    <li><a href="/portfolio" class="hover:text-green-400 transition-colors">
+                            <i class='bx bx-line-chart'></i> Portfolio
+                        </a></li>
                     <li><a href="/learn" class="hover:text-green-400 transition-colors">Learn</a></li>
                     <li><a href="/chat" class="hover:text-green-400 transition-colors">
-                        <i class='bx bx-bot'></i> AI Assistant
-                    </a></li>
+                            <i class='bx bx-bot'></i> AI Assistant
+                        </a></li>
                     <li><a href="/about" class="hover:text-green-400 transition-colors">About</a></li>
                     <li><a href="/contact" class="hover:text-green-400 transition-colors">Contact</a></li>
                 </ul>
-                
+
                 {% if user %}
                 <!-- Theme Toggle -->
-                <button 
-                    class="theme-toggle mr-2" 
-                    onclick="toggleTheme()" 
-                    aria-label="Toggle dark/light theme"
-                    role="switch"
-                    aria-checked="false"
-                    id="theme-toggle-btn"
-                >
+                <button class="theme-toggle mr-2" onclick="toggleTheme()" aria-label="Toggle dark/light theme"
+                    role="switch" aria-checked="false" id="theme-toggle-btn">
                     <span class="theme-toggle-slider">
                         <i class='bx bx-sun' id="theme-icon"></i>
                     </span>
@@ -214,35 +222,33 @@
                             <span>{{ user.username[0]|upper }}</span>
                         </div>
                     </div>
-                    <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-lg glass-card rounded-box w-52">
+                    <ul tabindex="0"
+                        class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-lg glass-card rounded-box w-52">
                         <li class="menu-title">
                             <span>{{ user.username }}</span>
                         </li>
                         <li><a href="/dashboard"><i class='bx bx-grid-alt'></i> Dashboard</a></li>
-                        <li><a href="/api/auth/logout" onclick="logout(event)"><i class='bx bx-log-out'></i> Logout</a></li>
+                        <li><a href="/api/auth/logout" onclick="logout(event)"><i class='bx bx-log-out'></i> Logout</a>
+                        </li>
                     </ul>
                 </div>
                 {% else %}
                 <!-- Theme Toggle -->
-                <button 
-                    class="theme-toggle mr-2" 
-                    onclick="toggleTheme()" 
-                    aria-label="Toggle dark/light theme"
-                    role="switch"
-                    aria-checked="false"
-                    id="theme-toggle-btn-alt"
-                >
+                <button class="theme-toggle mr-2" onclick="toggleTheme()" aria-label="Toggle dark/light theme"
+                    role="switch" aria-checked="false" id="theme-toggle-btn-alt">
                     <span class="theme-toggle-slider">
                         <i class='bx bx-sun' id="theme-icon-alt"></i>
                     </span>
                 </button>
                 <div class="flex gap-2 ml-2">
                     <a href="/login" class="btn btn-ghost btn-sm">Login</a>
-                    <a href="/signup" class="btn btn-primary btn-sm bg-gradient-to-r from-green-400 to-blue-500 border-none">Sign Up</a>
+                    <a href="/signup"
+                        class="btn btn-primary btn-sm bg-gradient-to-r from-green-400 to-blue-500 border-none">Sign
+                        Up</a>
                 </div>
                 {% endif %}
             </div>
-            
+
             <!-- Mobile Menu Button -->
             <div class="flex-none lg:hidden">
                 <button class="btn btn-ghost btn-square" @click="mobileOpen = !mobileOpen">
@@ -251,12 +257,13 @@
                 </button>
             </div>
         </div>
-        
+
         <!-- Mobile Menu -->
         <div class="absolute top-full left-0 right-0 glass-card lg:hidden" x-show="mobileOpen" x-transition x-cloak>
             <ul class="menu p-4">
                 <li><a href="/">Home</a></li>
                 <li><a href="/calculator">Calculators</a></li>
+                <li><a href="/portfolio">Portfolio</a></li>
                 <li><a href="/learn">Learn</a></li>
                 <li><a href="/chat">AI Assistant</a></li>
                 <li><a href="/about">About</a></li>
@@ -271,12 +278,12 @@
             </ul>
         </div>
     </nav>
-    
+
     <!-- Main Content -->
     <main>
         {% block content %}{% endblock %}
     </main>
-    
+
     <!-- Footer -->
     <footer class="footer footer-center p-10 bg-base-200/50 text-base-content mt-20 border-t border-white/10">
         <aside>
@@ -314,71 +321,71 @@
             <p class="text-gray-500">Copyright © 2026 Finology by Piyu - All rights reserved</p>
         </aside>
     </footer>
-    
+
     <!-- Toast Notifications -->
     <div id="toast-container" class="toast toast-end z-50"></div>
-    
+
     <script>
         // Theme Toggle - Non-intrusive implementation
-        (function() {
+        (function () {
             const savedTheme = localStorage.getItem('finology-theme');
             if (savedTheme === 'light') {
                 document.documentElement.setAttribute('data-theme', 'light');
             }
         })();
-        
+
         function toggleTheme() {
             const html = document.documentElement;
             const currentTheme = html.getAttribute('data-theme');
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            
+
             // Add transition class
             html.classList.add('theme-transition');
-            
+
             // Change theme
             html.setAttribute('data-theme', newTheme);
             localStorage.setItem('finology-theme', newTheme);
-            
+
             // Update icons and ARIA
             updateThemeUI(newTheme);
-            
+
             // Remove transition class after animation
             setTimeout(() => {
                 html.classList.remove('theme-transition');
             }, 300);
         }
-        
+
         function updateThemeUI(theme) {
             const icons = document.querySelectorAll('#theme-icon, #theme-icon-alt');
             const toggles = document.querySelectorAll('#theme-toggle-btn, #theme-toggle-btn-alt');
-            
+
             icons.forEach(icon => {
                 if (icon) {
                     icon.className = theme === 'light' ? 'bx bx-moon' : 'bx bx-sun';
                 }
             });
-            
+
             toggles.forEach(toggle => {
                 if (toggle) {
                     toggle.setAttribute('aria-checked', theme === 'light' ? 'true' : 'false');
                 }
             });
         }
-        
+
         // Initialize UI on page load
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             updateThemeUI(currentTheme);
         });
-        
+
         // Keyboard accessibility
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
             if (e.target.classList.contains('theme-toggle') && (e.key === 'Enter' || e.key === ' ')) {
                 e.preventDefault();
                 toggleTheme();
             }
         });
-        
+
         function showToast(message, type = 'info') {
             const container = document.getElementById('toast-container');
             const alert = document.createElement('div');
@@ -387,14 +394,15 @@
             container.appendChild(alert);
             setTimeout(() => alert.remove(), 3000);
         }
-        
+
         async function logout(e) {
             e.preventDefault();
             await fetch('/api/auth/logout', { method: 'POST' });
             window.location.href = '/';
         }
     </script>
-    
+
     {% block extra_scripts %}{% endblock %}
 </body>
+
 </html>

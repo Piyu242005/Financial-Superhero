@@ -202,12 +202,39 @@ OPENAI_API_KEY=your-openai-api-key-here
 
 <div align="center">
 
-| Feature | Preview |
+### 🏠 Dashboard
+![Dashboard](static/Website%20Pic/Dashboard.jpeg)
+
+---
+
+### 🤖 AI Financial Assistant
+![AI Assistant](static/Website%20Pic/AI%20Assistance.jpeg)
+
+---
+
+### 🧮 Financial Calculators
+![Calculators](static/Website%20Pic/Financial%20Calculators.jpeg)
+
+---
+
+### 📚 Learn Investing
+![Learn Investing](static/Website%20Pic/Learn%20Investing.jpeg)
+
+---
+
+### 🔐 Authentication
+
+| Login | Sign Up |
 |:---:|:---:|
-| 🏠 **Dashboard** | Modern glassmorphism design |
-| 🧮 **Calculators** | Interactive financial tools |
-| 💬 **AI Chat** | Real-time financial guidance |
-| 📱 **Responsive** | Works on all devices |
+| ![Login](static/Website%20Pic/login.jpeg) | ![Sign Up](static/Website%20Pic/Sign%20up.jpeg) |
+
+---
+
+### ℹ️ About & Contact
+
+| About Us | Get in Touch |
+|:---:|:---:|
+| ![About](static/Website%20Pic/About.jpeg) | ![Contact](static/Website%20Pic/Get%20in%20Touch.jpeg) |
 
 </div>
 

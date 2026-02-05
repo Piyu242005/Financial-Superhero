@@ -96,3 +96,15 @@ async def chat_page(request: Request, current_user: User = Depends(get_current_u
         "user": current_user,
         "page_title": "AI Financial Assistant - Finology"
     })
+
+
+@router.get("/portfolio", response_class=HTMLResponse)
+async def portfolio_page(request: Request, current_user: User = Depends(get_current_user)):
+    if not current_user:
+        from fastapi.responses import RedirectResponse
+        return RedirectResponse(url="/login", status_code=302)
+    return templates.TemplateResponse("portfolio.html", {
+        "request": request,
+        "user": current_user,
+        "page_title": "Portfolio Tracker - Finology"
+    })

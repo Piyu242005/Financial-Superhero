@@ -1,0 +1,657 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8 lg:py-12">
+    <!-- Header Section -->
+    <div class="text-center mb-8 relative">
+        <div class="absolute inset-0 -z-10">
+            <div
+                class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-r from-purple-500/20 via-blue-500/20 to-green-500/20 rounded-full blur-3xl animate-pulse-slow">
+            </div>
+        </div>
+        <div
+            class="inline-flex items-center gap-3 bg-gradient-to-r from-purple-500/10 to-blue-500/10 px-6 py-2 rounded-full border border-white/10 mb-6 backdrop-blur-sm">
+            <i class='bx bx-line-chart text-purple-400'></i>
+            <span class="text-sm text-gray-300">Investment Portfolio</span>
+        </div>
+        <h1 class="text-4xl lg:text-5xl font-bold mb-4">
+            Track Your <span class="gradient-text">Portfolio</span>
+        </h1>
+        <p class="text-gray-400 max-w-2xl mx-auto text-lg">
+            Monitor your investments and get personalized insights on your portfolio performance.
+        </p>
+    </div>
+
+    <!-- Portfolio Summary Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8" id="summaryCards">
+        <div class="glass-card rounded-2xl p-6 border border-white/10 hover:border-purple-500/30 transition-all">
+            <div class="flex items-center justify-between mb-4">
+                <div
+                    class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-500/5 flex items-center justify-center">
+                    <i class='bx bx-wallet text-2xl text-purple-400'></i>
+                </div>
+                <span class="text-xs text-gray-500">Total Invested</span>
+            </div>
+            <p class="text-2xl font-bold text-white" id="totalInvested">₹0.00</p>
+            <p class="text-sm text-gray-400 mt-1">Across all holdings</p>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6 border border-white/10 hover:border-blue-500/30 transition-all">
+            <div class="flex items-center justify-between mb-4">
+                <div
+                    class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-500/5 flex items-center justify-center">
+                    <i class='bx bx-trending-up text-2xl text-blue-400'></i>
+                </div>
+                <span class="text-xs text-gray-500">Current Value</span>
+            </div>
+            <p class="text-2xl font-bold text-white" id="currentValue">₹0.00</p>
+            <p class="text-sm text-gray-400 mt-1">Market value</p>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6 border border-white/10 transition-all" id="gainLossCard">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500/20 to-green-500/5 flex items-center justify-center"
+                    id="gainLossIcon">
+                    <i class='bx bx-line-chart text-2xl text-green-400'></i>
+                </div>
+                <span class="text-xs text-gray-500">Total P&L</span>
+            </div>
+            <p class="text-2xl font-bold" id="totalGainLoss">₹0.00</p>
+            <p class="text-sm mt-1" id="gainLossPercent">0.00%</p>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6 border border-white/10 hover:border-orange-500/30 transition-all">
+            <div class="flex items-center justify-between mb-4">
+                <div
+                    class="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500/20 to-orange-500/5 flex items-center justify-center">
+                    <i class='bx bx-star text-2xl text-orange-400'></i>
+                </div>
+                <span class="text-xs text-gray-500">Top Performer</span>
+            </div>
+            <p class="text-2xl font-bold text-white" id="topPerformer">--</p>
+            <p class="text-sm text-gray-400 mt-1">Best performing stock</p>
+        </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Holdings Table -->
+        <div class="lg:col-span-2">
+            <div class="glass-card rounded-2xl border border-white/10 overflow-hidden">
+                <div
+                    class="p-6 border-b border-white/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                            <i class='bx bx-briefcase text-green-400'></i>
+                            Your Holdings
+                        </h2>
+                        <p class="text-sm text-gray-400">Manage your stock investments</p>
+                    </div>
+                    <button onclick="openAddModal()"
+                        class="btn bg-gradient-to-r from-green-500 to-cyan-500 hover:from-green-400 hover:to-cyan-400 text-white border-none shadow-lg shadow-green-500/25">
+                        <i class='bx bx-plus'></i> Add Investment
+                    </button>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="table w-full">
+                        <thead>
+                            <tr class="border-b border-white/10">
+                                <th class="bg-transparent text-gray-400 font-medium">Stock</th>
+                                <th class="bg-transparent text-gray-400 font-medium text-right">Qty</th>
+                                <th class="bg-transparent text-gray-400 font-medium text-right">Avg Price</th>
+                                <th class="bg-transparent text-gray-400 font-medium text-right">Current</th>
+                                <th class="bg-transparent text-gray-400 font-medium text-right">P&L</th>
+                                <th class="bg-transparent text-gray-400 font-medium text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="holdingsTable">
+                            <tr id="noHoldingsRow">
+                                <td colspan="6" class="text-center py-12 text-gray-500">
+                                    <div class="flex flex-col items-center gap-3">
+                                        <i class='bx bx-folder-open text-5xl text-gray-600'></i>
+                                        <p>No holdings yet</p>
+                                        <button onclick="openAddModal()"
+                                            class="btn btn-sm btn-outline border-green-500/50 text-green-400 hover:bg-green-500 hover:text-black">
+                                            Add your first investment
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="space-y-6">
+            <!-- Quick Add from Popular Stocks -->
+            <div class="glass-card rounded-2xl p-6 border border-white/10">
+                <h3 class="font-bold text-white mb-4 flex items-center gap-2">
+                    <i class='bx bx-star text-yellow-400'></i>
+                    Popular Stocks
+                </h3>
+                <div class="space-y-3" id="popularStocks">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+
+            <!-- Watchlist -->
+            <div class="glass-card rounded-2xl p-6 border border-white/10">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-bold text-white flex items-center gap-2">
+                        <i class='bx bx-bookmark text-cyan-400'></i>
+                        Watchlist
+                    </h3>
+                    <button onclick="openWatchlistModal()" class="btn btn-ghost btn-sm btn-circle">
+                        <i class='bx bx-plus text-lg'></i>
+                    </button>
+                </div>
+                <div class="space-y-3" id="watchlistItems">
+                    <p class="text-sm text-gray-500">No items in watchlist</p>
+                </div>
+            </div>
+
+            <!-- AI Insights -->
+            <div
+                class="glass-card rounded-2xl p-6 border border-white/10 bg-gradient-to-br from-purple-500/5 to-blue-500/5">
+                <h3 class="font-bold text-white mb-4 flex items-center gap-2">
+                    <i class='bx bx-bulb text-purple-400'></i>
+                    AI Insights
+                </h3>
+                <div class="space-y-3" id="aiInsights">
+                    <div class="flex items-start gap-3 p-3 rounded-xl bg-white/5">
+                        <i class='bx bx-info-circle text-blue-400 mt-0.5'></i>
+                        <p class="text-sm text-gray-300">Add stocks to your portfolio to get personalized insights and
+                            recommendations.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add/Edit Holding Modal -->
+<dialog id="holdingModal" class="modal">
+    <div class="modal-box glass-card border border-white/10 max-w-lg">
+        <h3 class="font-bold text-xl mb-6 flex items-center gap-2">
+            <i class='bx bx-plus-circle text-green-400'></i>
+            <span id="modalTitle">Add Investment</span>
+        </h3>
+        <form id="holdingForm" class="space-y-4">
+            <input type="hidden" id="holdingId" value="">
+
+            <div class="form-control">
+                <label class="label"><span class="label-text text-gray-400">Stock Symbol</span></label>
+                <input type="text" id="symbol" placeholder="e.g., RELIANCE, TCS"
+                    class="input input-bordered bg-white/5 border-white/20 focus:border-green-500" required>
+            </div>
+
+            <div class="form-control">
+                <label class="label"><span class="label-text text-gray-400">Company Name</span></label>
+                <input type="text" id="companyName" placeholder="e.g., Reliance Industries Ltd"
+                    class="input input-bordered bg-white/5 border-white/20 focus:border-green-500" required>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div class="form-control">
+                    <label class="label"><span class="label-text text-gray-400">Quantity</span></label>
+                    <input type="number" id="quantity" placeholder="No. of shares" step="0.01" min="0.01"
+                        class="input input-bordered bg-white/5 border-white/20 focus:border-green-500" required>
+                </div>
+                <div class="form-control">
+                    <label class="label"><span class="label-text text-gray-400">Buy Price (₹)</span></label>
+                    <input type="number" id="buyPrice" placeholder="Price per share" step="0.01" min="0.01"
+                        class="input input-bordered bg-white/5 border-white/20 focus:border-green-500" required>
+                </div>
+            </div>
+
+            <div class="form-control">
+                <label class="label"><span class="label-text text-gray-400">Buy Date</span></label>
+                <input type="date" id="buyDate"
+                    class="input input-bordered bg-white/5 border-white/20 focus:border-green-500" required>
+            </div>
+
+            <div class="form-control">
+                <label class="label"><span class="label-text text-gray-400">Notes (Optional)</span></label>
+                <textarea id="notes" placeholder="Any notes about this investment..." rows="2"
+                    class="textarea textarea-bordered bg-white/5 border-white/20 focus:border-green-500"></textarea>
+            </div>
+
+            <div class="modal-action">
+                <button type="button" onclick="closeModal()" class="btn btn-ghost">Cancel</button>
+                <button type="submit" class="btn bg-gradient-to-r from-green-500 to-cyan-500 text-white border-none">
+                    <i class='bx bx-check'></i> Save
+                </button>
+            </div>
+        </form>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
+</dialog>
+
+<!-- Watchlist Modal -->
+<dialog id="watchlistModal" class="modal">
+    <div class="modal-box glass-card border border-white/10 max-w-md">
+        <h3 class="font-bold text-xl mb-6 flex items-center gap-2">
+            <i class='bx bx-bookmark-plus text-cyan-400'></i>
+            Add to Watchlist
+        </h3>
+        <form id="watchlistForm" class="space-y-4">
+            <div class="form-control">
+                <label class="label"><span class="label-text text-gray-400">Stock Symbol</span></label>
+                <input type="text" id="watchSymbol" placeholder="e.g., INFY"
+                    class="input input-bordered bg-white/5 border-white/20 focus:border-cyan-500" required>
+            </div>
+            <div class="form-control">
+                <label class="label"><span class="label-text text-gray-400">Company Name</span></label>
+                <input type="text" id="watchCompanyName" placeholder="e.g., Infosys Ltd"
+                    class="input input-bordered bg-white/5 border-white/20 focus:border-cyan-500" required>
+            </div>
+            <div class="form-control">
+                <label class="label"><span class="label-text text-gray-400">Target Price (Optional)</span></label>
+                <input type="number" id="watchTargetPrice" placeholder="Price alert target" step="0.01" min="0"
+                    class="input input-bordered bg-white/5 border-white/20 focus:border-cyan-500">
+            </div>
+            <div class="modal-action">
+                <button type="button" onclick="closeWatchlistModal()" class="btn btn-ghost">Cancel</button>
+                <button type="submit" class="btn bg-gradient-to-r from-cyan-500 to-blue-500 text-white border-none">
+                    <i class='bx bx-bookmark-plus'></i> Add
+                </button>
+            </div>
+        </form>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
+</dialog>
+
+<style>
+    @keyframes pulse-slow {
+
+        0%,
+        100% {
+            opacity: 0.5;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        50% {
+            opacity: 0.8;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+    }
+
+    .animate-pulse-slow {
+        animation: pulse-slow 4s ease-in-out infinite;
+    }
+
+    .holding-row:hover {
+        background: rgba(255, 255, 255, 0.03);
+    }
+
+    .gain {
+        color: #4ade80;
+    }
+
+    .loss {
+        color: #f87171;
+    }
+</style>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    const API_BASE = '/api/portfolio';
+    let editingId = null;
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        loadPortfolio();
+        loadWatchlist();
+        loadPopularStocks();
+
+        // Set default date to today
+        document.getElementById('buyDate').valueAsDate = new Date();
+    });
+
+    async function loadPortfolio() {
+        try {
+            const [holdings, summary] = await Promise.all([
+                fetch(`${API_BASE}/`).then(r => r.json()),
+                fetch(`${API_BASE}/summary`).then(r => r.json())
+            ]);
+
+            renderHoldings(holdings);
+            renderSummary(summary);
+        } catch (error) {
+            console.error('Error loading portfolio:', error);
+        }
+    }
+
+    function renderSummary(summary) {
+        document.getElementById('totalInvested').textContent = `₹${formatNumber(summary.total_invested)}`;
+        document.getElementById('currentValue').textContent = `₹${formatNumber(summary.current_value)}`;
+
+        const gainLoss = summary.total_gain_loss;
+        const gainLossEl = document.getElementById('totalGainLoss');
+        const gainLossPercentEl = document.getElementById('gainLossPercent');
+        const gainLossCard = document.getElementById('gainLossCard');
+        const gainLossIcon = document.getElementById('gainLossIcon');
+
+        if (gainLoss >= 0) {
+            gainLossEl.textContent = `+₹${formatNumber(gainLoss)}`;
+            gainLossEl.className = 'text-2xl font-bold gain';
+            gainLossPercentEl.textContent = `+${summary.total_gain_loss_percent.toFixed(2)}%`;
+            gainLossPercentEl.className = 'text-sm mt-1 gain';
+            gainLossCard.classList.add('hover:border-green-500/30');
+            gainLossCard.classList.remove('hover:border-red-500/30');
+            gainLossIcon.innerHTML = '<i class="bx bx-trending-up text-2xl text-green-400"></i>';
+        } else {
+            gainLossEl.textContent = `-₹${formatNumber(Math.abs(gainLoss))}`;
+            gainLossEl.className = 'text-2xl font-bold loss';
+            gainLossPercentEl.textContent = `${summary.total_gain_loss_percent.toFixed(2)}%`;
+            gainLossPercentEl.className = 'text-sm mt-1 loss';
+            gainLossCard.classList.add('hover:border-red-500/30');
+            gainLossCard.classList.remove('hover:border-green-500/30');
+            gainLossIcon.innerHTML = '<i class="bx bx-trending-down text-2xl text-red-400"></i>';
+        }
+
+        document.getElementById('topPerformer').textContent = summary.top_performer || '--';
+
+        // Update AI insights based on portfolio
+        updateAIInsights(summary);
+    }
+
+    function renderHoldings(holdings) {
+        const tbody = document.getElementById('holdingsTable');
+
+        if (holdings.length === 0) {
+            tbody.innerHTML = `
+            <tr id="noHoldingsRow">
+                <td colspan="6" class="text-center py-12 text-gray-500">
+                    <div class="flex flex-col items-center gap-3">
+                        <i class='bx bx-folder-open text-5xl text-gray-600'></i>
+                        <p>No holdings yet</p>
+                        <button onclick="openAddModal()" class="btn btn-sm btn-outline border-green-500/50 text-green-400 hover:bg-green-500 hover:text-black">
+                            Add your first investment
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `;
+            return;
+        }
+
+        tbody.innerHTML = holdings.map(h => `
+        <tr class="holding-row border-b border-white/5">
+            <td>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center font-bold text-sm">
+                        ${h.symbol.substring(0, 2)}
+                    </div>
+                    <div>
+                        <p class="font-semibold text-white">${h.symbol}</p>
+                        <p class="text-xs text-gray-500 truncate max-w-[120px]">${h.company_name}</p>
+                    </div>
+                </div>
+            </td>
+            <td class="text-right font-medium">${h.quantity}</td>
+            <td class="text-right">₹${formatNumber(h.buy_price)}</td>
+            <td class="text-right">₹${formatNumber(h.current_price)}</td>
+            <td class="text-right">
+                <div class="${h.gain_loss >= 0 ? 'gain' : 'loss'}">
+                    <p class="font-semibold">${h.gain_loss >= 0 ? '+' : ''}₹${formatNumber(h.gain_loss)}</p>
+                    <p class="text-xs">${h.gain_loss >= 0 ? '+' : ''}${h.gain_loss_percent.toFixed(2)}%</p>
+                </div>
+            </td>
+            <td class="text-center">
+                <div class="flex justify-center gap-1">
+                    <button onclick="editHolding(${h.id})" class="btn btn-ghost btn-xs btn-circle">
+                        <i class='bx bx-edit text-blue-400'></i>
+                    </button>
+                    <button onclick="deleteHolding(${h.id})" class="btn btn-ghost btn-xs btn-circle">
+                        <i class='bx bx-trash text-red-400'></i>
+                    </button>
+                </div>
+            </td>
+        </tr>
+    `).join('');
+    }
+
+    async function loadWatchlist() {
+        try {
+            const items = await fetch(`${API_BASE}/watchlist`).then(r => r.json());
+            renderWatchlist(items);
+        } catch (error) {
+            console.error('Error loading watchlist:', error);
+        }
+    }
+
+    function renderWatchlist(items) {
+        const container = document.getElementById('watchlistItems');
+
+        if (items.length === 0) {
+            container.innerHTML = '<p class="text-sm text-gray-500">No items in watchlist</p>';
+            return;
+        }
+
+        container.innerHTML = items.map(item => `
+        <div class="flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all group">
+            <div>
+                <p class="font-semibold text-white">${item.symbol}</p>
+                <p class="text-xs text-gray-500">₹${formatNumber(item.current_price)}</p>
+            </div>
+            <button onclick="removeFromWatchlist(${item.id})" class="btn btn-ghost btn-xs btn-circle opacity-0 group-hover:opacity-100 transition-opacity">
+                <i class='bx bx-x text-red-400'></i>
+            </button>
+        </div>
+    `).join('');
+    }
+
+    async function loadPopularStocks() {
+        try {
+            const stocks = await fetch(`${API_BASE}/stocks`).then(r => r.json());
+            const container = document.getElementById('popularStocks');
+
+            container.innerHTML = stocks.slice(0, 5).map(stock => `
+            <div class="flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all cursor-pointer group"
+                 onclick="quickAddStock('${stock.symbol}', '${stock.name}', ${stock.price})">
+                <div>
+                    <p class="font-semibold text-white">${stock.symbol}</p>
+                    <p class="text-xs text-gray-500">₹${formatNumber(stock.price)}</p>
+                </div>
+                <i class='bx bx-plus text-green-400 opacity-0 group-hover:opacity-100 transition-opacity'></i>
+            </div>
+        `).join('');
+        } catch (error) {
+            console.error('Error loading stocks:', error);
+        }
+    }
+
+    function quickAddStock(symbol, name, price) {
+        document.getElementById('symbol').value = symbol;
+        document.getElementById('companyName').value = name;
+        document.getElementById('buyPrice').value = price;
+        openAddModal();
+    }
+
+    function updateAIInsights(summary) {
+        const container = document.getElementById('aiInsights');
+        const insights = [];
+
+        if (summary.holdings_count === 0) {
+            insights.push({
+                icon: 'bx-info-circle',
+                color: 'blue',
+                text: 'Add stocks to your portfolio to get personalized insights and recommendations.'
+            });
+        } else {
+            if (summary.holdings_count < 5) {
+                insights.push({
+                    icon: 'bx-bulb',
+                    color: 'yellow',
+                    text: `Consider diversifying! You have only ${summary.holdings_count} stock(s). A diversified portfolio typically has 10-15 stocks across sectors.`
+                });
+            }
+
+            if (summary.total_gain_loss_percent > 20) {
+                insights.push({
+                    icon: 'bx-trophy',
+                    color: 'green',
+                    text: `Great performance! Your portfolio is up ${summary.total_gain_loss_percent.toFixed(1)}%. Consider booking partial profits.`
+                });
+            } else if (summary.total_gain_loss_percent < -10) {
+                insights.push({
+                    icon: 'bx-shield',
+                    color: 'orange',
+                    text: `Your portfolio is down ${Math.abs(summary.total_gain_loss_percent).toFixed(1)}%. Stay calm and review your investment thesis.`
+                });
+            }
+
+            if (summary.top_performer) {
+                insights.push({
+                    icon: 'bx-star',
+                    color: 'purple',
+                    text: `${summary.top_performer} is your top performer. Keep an eye on its valuations.`
+                });
+            }
+        }
+
+        container.innerHTML = insights.map(i => `
+        <div class="flex items-start gap-3 p-3 rounded-xl bg-white/5">
+            <i class='bx ${i.icon} text-${i.color}-400 mt-0.5'></i>
+            <p class="text-sm text-gray-300">${i.text}</p>
+        </div>
+    `).join('');
+    }
+
+    // Modal functions
+    function openAddModal() {
+        editingId = null;
+        document.getElementById('modalTitle').textContent = 'Add Investment';
+        document.getElementById('holdingForm').reset();
+        document.getElementById('buyDate').valueAsDate = new Date();
+        document.getElementById('holdingModal').showModal();
+    }
+
+    function closeModal() {
+        document.getElementById('holdingModal').close();
+    }
+
+    async function editHolding(id) {
+        try {
+            const holdings = await fetch(`${API_BASE}/`).then(r => r.json());
+            const holding = holdings.find(h => h.id === id);
+
+            if (holding) {
+                editingId = id;
+                document.getElementById('modalTitle').textContent = 'Edit Investment';
+                document.getElementById('symbol').value = holding.symbol;
+                document.getElementById('companyName').value = holding.company_name;
+                document.getElementById('quantity').value = holding.quantity;
+                document.getElementById('buyPrice').value = holding.buy_price;
+                document.getElementById('buyDate').value = holding.buy_date;
+                document.getElementById('notes').value = holding.notes || '';
+                document.getElementById('holdingModal').showModal();
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    async function deleteHolding(id) {
+        if (!confirm('Are you sure you want to delete this holding?')) return;
+
+        try {
+            await fetch(`${API_BASE}/${id}`, { method: 'DELETE' });
+            loadPortfolio();
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    // Form submissions
+    document.getElementById('holdingForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const data = {
+            symbol: document.getElementById('symbol').value,
+            company_name: document.getElementById('companyName').value,
+            quantity: parseFloat(document.getElementById('quantity').value),
+            buy_price: parseFloat(document.getElementById('buyPrice').value),
+            buy_date: document.getElementById('buyDate').value,
+            notes: document.getElementById('notes').value || null
+        };
+
+        try {
+            if (editingId) {
+                await fetch(`${API_BASE}/${editingId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+            } else {
+                await fetch(`${API_BASE}/`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+            }
+
+            closeModal();
+            loadPortfolio();
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });
+
+    // Watchlist functions
+    function openWatchlistModal() {
+        document.getElementById('watchlistForm').reset();
+        document.getElementById('watchlistModal').showModal();
+    }
+
+    function closeWatchlistModal() {
+        document.getElementById('watchlistModal').close();
+    }
+
+    document.getElementById('watchlistForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const data = {
+            symbol: document.getElementById('watchSymbol').value,
+            company_name: document.getElementById('watchCompanyName').value,
+            target_price: parseFloat(document.getElementById('watchTargetPrice').value) || null
+        };
+
+        try {
+            await fetch(`${API_BASE}/watchlist`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            closeWatchlistModal();
+            loadWatchlist();
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });
+
+    async function removeFromWatchlist(id) {
+        try {
+            await fetch(`${API_BASE}/watchlist/${id}`, { method: 'DELETE' });
+            loadWatchlist();
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    // Utility
+    function formatNumber(num) {
+        return new Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 }).format(num);
+    }
+</script>
+{% endblock %}
