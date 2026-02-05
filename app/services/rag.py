@@ -1,8 +1,10 @@
 import os
 import uuid
 from typing import Optional
+import httpx
 
 import google.generativeai as genai
+from openai import OpenAI
 from app.config import settings
 
 # Vector store path
@@ -160,16 +162,54 @@ Important guidelines:
 
 class RAGService:
     def __init__(self):
-        """Initialize the Gemini AI client"""
+        """Initialize the AI client (OpenAI, Gemini, or Ollama based on config)"""
         self.model = None
+        self.openai_client = None
+        self.ollama_available = False
         self.chat_sessions = {}
+        self.provider = settings.ai_provider.lower()
         
-        # Configure Gemini if API key is available
+        if self.provider == "openai":
+            self._init_openai()
+        elif self.provider == "ollama":
+            self._init_ollama()
+        else:
+            self._init_gemini()
+    
+    def _init_openai(self):
+        """Initialize OpenAI client"""
+        if settings.openai_api_key and settings.openai_api_key != "your-openai-api-key-here":
+            try:
+                self.openai_client = OpenAI(api_key=settings.openai_api_key)
+                print("✅ OpenAI initialized successfully!")
+            except Exception as e:
+                print(f"⚠️ Failed to initialize OpenAI: {e}")
+                self.openai_client = None
+        else:
+            print("⚠️ OpenAI API key not configured. Using fallback responses.")
+    
+    def _init_ollama(self):
+        """Initialize Ollama client"""
+        try:
+            # Check if Ollama is running
+            response = httpx.get(f"{settings.ollama_base_url}/api/tags", timeout=5.0)
+            if response.status_code == 200:
+                self.ollama_available = True
+                print(f"✅ Ollama initialized successfully! Model: {settings.ollama_model}")
+            else:
+                print("⚠️ Ollama server not responding. Using fallback responses.")
+        except Exception as e:
+            print(f"⚠️ Failed to connect to Ollama: {e}")
+            print("   Make sure Ollama is running: ollama serve")
+            self.ollama_available = False
+    
+    def _init_gemini(self):
+        """Initialize Gemini client"""
         if settings.gemini_api_key and settings.gemini_api_key != "your-gemini-api-key-here":
             try:
                 genai.configure(api_key=settings.gemini_api_key)
                 self.model = genai.GenerativeModel(
-                    model_name="gemini-1.5-flash",
+                    model_name="gemini-2.0-flash-lite",
                     system_instruction=SYSTEM_PROMPT.format(context=FINANCIAL_KNOWLEDGE)
                 )
                 print("✅ Gemini AI initialized successfully!")
@@ -185,12 +225,36 @@ class RAGService:
         pass
     
     async def get_answer(self, question: str, session_id: Optional[str] = None) -> dict:
-        """Get answer using Gemini AI or fallback to pattern matching"""
+        """Get answer using OpenAI, Gemini, Ollama, or fallback to pattern matching"""
         if session_id is None:
             session_id = str(uuid.uuid4())
         
-        # Try Gemini AI first
-        if self.model:
+        # Try OpenAI if configured
+        if self.provider == "openai" and self.openai_client:
+            try:
+                answer = await self._get_openai_response(question, session_id)
+                return {
+                    "answer": answer,
+                    "sources": ["OpenAI GPT-4o Financial Advisor", "Financial Knowledge Base"],
+                    "session_id": session_id
+                }
+            except Exception as e:
+                print(f"OpenAI error: {e}")
+        
+        # Try Ollama if configured
+        elif self.provider == "ollama" and self.ollama_available:
+            try:
+                answer = await self._get_ollama_response(question, session_id)
+                return {
+                    "answer": answer,
+                    "sources": [f"Ollama {settings.ollama_model} Financial Advisor", "Financial Knowledge Base"],
+                    "session_id": session_id
+                }
+            except Exception as e:
+                print(f"Ollama error: {e}")
+        
+        # Try Gemini if configured
+        elif self.provider == "gemini" and self.model:
             try:
                 answer = await self._get_gemini_response(question, session_id)
                 return {
@@ -200,7 +264,6 @@ class RAGService:
                 }
             except Exception as e:
                 print(f"Gemini error: {e}")
-                # Fall back to pattern matching
         
         # Fallback response
         answer = self._generate_fallback_response(question, FINANCIAL_KNOWLEDGE)
@@ -210,6 +273,61 @@ class RAGService:
             "sources": ["Financial Knowledge Base"],
             "session_id": session_id
         }
+    
+    async def _get_ollama_response(self, question: str, session_id: str) -> str:
+        """Get response from Ollama with conversation history"""
+        # Get or create chat session
+        if session_id not in self.chat_sessions:
+            self.chat_sessions[session_id] = [
+                {"role": "system", "content": SYSTEM_PROMPT.format(context=FINANCIAL_KNOWLEDGE)}
+            ]
+        
+        # Add user message
+        self.chat_sessions[session_id].append({"role": "user", "content": question})
+        
+        # Get response from Ollama
+        async with httpx.AsyncClient(timeout=60.0) as client:
+            response = await client.post(
+                f"{settings.ollama_base_url}/api/chat",
+                json={
+                    "model": settings.ollama_model,
+                    "messages": self.chat_sessions[session_id],
+                    "stream": False
+                }
+            )
+            result = response.json()
+            answer = result.get("message", {}).get("content", "Sorry, I couldn't generate a response.")
+        
+        # Add assistant response to history
+        self.chat_sessions[session_id].append({"role": "assistant", "content": answer})
+        
+        return answer
+    
+    async def _get_openai_response(self, question: str, session_id: str) -> str:
+        """Get response from OpenAI with conversation history"""
+        # Get or create chat session
+        if session_id not in self.chat_sessions:
+            self.chat_sessions[session_id] = [
+                {"role": "system", "content": SYSTEM_PROMPT.format(context=FINANCIAL_KNOWLEDGE)}
+            ]
+        
+        # Add user message
+        self.chat_sessions[session_id].append({"role": "user", "content": question})
+        
+        # Get response from OpenAI
+        response = self.openai_client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=self.chat_sessions[session_id],
+            max_tokens=1000,
+            temperature=0.7
+        )
+        
+        answer = response.choices[0].message.content
+        
+        # Add assistant response to history
+        self.chat_sessions[session_id].append({"role": "assistant", "content": answer})
+        
+        return answer
     
     async def _get_gemini_response(self, question: str, session_id: str) -> str:
         """Get response from Gemini AI with conversation history"""
