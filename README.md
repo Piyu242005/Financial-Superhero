@@ -1,134 +1,257 @@
-# Finology - Modern Fintech Platform with RAG
+<div align="center">
 
-A modern financial technology platform built with FastAPI, featuring AI-powered financial assistant using RAG (Retrieval Augmented Generation), financial calculators, and educational resources.
+# 💰 FINOLOGY
 
-## Features
+### *Your AI-Powered Financial Companion*
 
-- 🤖 **AI Financial Assistant** - RAG-powered chatbot for financial queries
-- 🧮 **Financial Calculators** - EMI, SIP, Future Value, Mortgage, Investment Returns
-- 📚 **Learning Resources** - Comprehensive guides on investing
-- 👤 **User Authentication** - Secure login/signup with JWT tokens
-- 🎨 **Modern UI** - Tailwind CSS + DaisyUI with glassmorphism effects
+[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.109+-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind-3.4+-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+[![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
 
-## Tech Stack
+<p align="center">
+  <img src="https://img.shields.io/badge/Status-Active-success?style=flat-square" alt="Status">
+  <img src="https://img.shields.io/badge/Made%20with-❤️-red?style=flat-square" alt="Made with Love">
+</p>
 
-- **Backend**: FastAPI (Python)
-- **Database**: SQLite with SQLAlchemy (async)
-- **Frontend**: Jinja2 Templates, Tailwind CSS, DaisyUI, Alpine.js
-- **AI/RAG**: LangChain, ChromaDB, HuggingFace Embeddings
-- **Auth**: JWT tokens, bcrypt password hashing
+---
 
-## Project Structure
+**Finology is a modern fintech platform designed to simplify personal finance. Featuring smart calculators for SIP, EMI, FD, PPF & tax planning, an AI-powered chatbot for instant financial guidance, and comprehensive learning resources.**
+
+[🚀 Live Demo](#) • [📖 Documentation](#installation) • [🐛 Report Bug](https://github.com/Piyu242005/finology/issues)
+
+</div>
+
+---
+
+## ✨ Features
+
+<table>
+<tr>
+<td width="50%">
+
+### 🤖 AI Financial Assistant
+RAG-powered chatbot providing instant, accurate answers to all your financial queries
+
+### 🧮 Smart Calculators
+- 📊 SIP Calculator
+- 💳 EMI Calculator  
+- 🏦 FD/PPF Calculator
+- 🏠 Mortgage Calculator
+- 📈 Investment Returns
+
+</td>
+<td width="50%">
+
+### 📚 Learning Hub
+Comprehensive guides on investing, mutual funds, taxes, and wealth building
+
+### 🔐 Secure Authentication
+JWT-based auth with bcrypt password hashing for maximum security
+
+### 🎨 Modern UI/UX
+Glassmorphism design with dark theme, smooth animations & responsive layout
+
+</td>
+</tr>
+</table>
+
+---
+
+## 🛠️ Tech Stack
+
+<div align="center">
+
+| Layer | Technologies |
+|:---:|:---|
+| **Backend** | ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white) ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white) ![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-D71F00?style=flat-square&logo=sqlalchemy&logoColor=white) |
+| **Frontend** | ![TailwindCSS](https://img.shields.io/badge/Tailwind-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white) ![DaisyUI](https://img.shields.io/badge/DaisyUI-5A0EF8?style=flat-square&logo=daisyui&logoColor=white) ![Alpine.js](https://img.shields.io/badge/Alpine.js-8BC0D0?style=flat-square&logo=alpine.js&logoColor=black) |
+| **AI/ML** | ![LangChain](https://img.shields.io/badge/LangChain-121212?style=flat-square&logo=chainlink&logoColor=white) ![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=flat-square&logo=openai&logoColor=white) |
+| **Database** | ![SQLite](https://img.shields.io/badge/SQLite-003B57?style=flat-square&logo=sqlite&logoColor=white) |
+
+</div>
+
+---
+
+## 📁 Project Structure
 
 ```
-finology_app/
-├── app/
-│   ├── __init__.py
-│   ├── config.py          # Settings & environment variables
-│   ├── database.py         # Database setup
-│   ├── schemas.py          # Pydantic models
-│   ├── models/
-│   │   └── user.py         # SQLAlchemy models
-│   ├── routes/
-│   │   ├── auth.py         # Authentication endpoints
-│   │   ├── calculator.py   # Calculator API
-│   │   ├── chat.py         # RAG chat endpoint
-│   │   └── pages.py        # HTML page routes
-│   └── services/
-│       ├── auth.py         # Auth utilities
-│       ├── calculator.py   # Calculator logic
-│       └── rag.py          # RAG service
-├── templates/              # Jinja2 HTML templates
-├── static/                 # CSS, JS, images
-├── main.py                 # FastAPI application
-├── requirements.txt        # Python dependencies
-└── .env.example           # Environment template
+📦 finology_app
+├── 📂 app
+│   ├── 📄 config.py           # ⚙️ Settings & environment
+│   ├── 📄 database.py         # 🗄️ Database setup
+│   ├── 📄 schemas.py          # 📋 Pydantic models
+│   ├── 📂 models
+│   │   └── 📄 user.py         # 👤 User model
+│   ├── 📂 routes
+│   │   ├── 📄 auth.py         # 🔐 Authentication
+│   │   ├── 📄 calculator.py   # 🧮 Calculator API
+│   │   ├── 📄 chat.py         # 💬 RAG Chat
+│   │   └── 📄 pages.py        # 📄 Page routes
+│   └── 📂 services
+│       ├── 📄 auth.py         # 🔑 Auth utilities
+│       ├── 📄 calculator.py   # 📊 Calculator logic
+│       └── 📄 rag.py          # 🤖 RAG service
+├── 📂 templates               # 🎨 Jinja2 templates
+├── 📂 static                  # 🖼️ Assets
+├── 📄 main.py                 # 🚀 Entry point
+└── 📄 requirements.txt        # 📦 Dependencies
 ```
 
-## Installation
+---
 
-### 1. Clone and Navigate
+## 🚀 Installation
+
+<details>
+<summary><b>📋 Prerequisites</b></summary>
+
+- Python 3.10 or higher
+- pip package manager
+- Git
+
+</details>
+
+### Quick Start
+
 ```bash
+# 1️⃣ Clone the repository
+git clone https://github.com/Piyu242005/finology.git
 cd finology_app
-```
 
-### 2. Create Virtual Environment
-```bash
+# 2️⃣ Create virtual environment
 python -m venv venv
-venv\Scripts\activate  # Windows
-# source venv/bin/activate  # Linux/Mac
-```
+venv\Scripts\activate      # Windows
+source venv/bin/activate   # Linux/Mac
 
-### 3. Install Dependencies
-```bash
+# 3️⃣ Install dependencies
 pip install -r requirements.txt
-```
 
-### 4. Configure Environment
-```bash
+# 4️⃣ Configure environment
 copy .env.example .env
-# Edit .env with your settings (especially OPENAI_API_KEY for full RAG functionality)
+# Edit .env with your settings
+
+# 5️⃣ Launch the app 🚀
+uvicorn main:app --reload --port 8000
 ```
 
-### 5. Run the Application
+<div align="center">
+
+### 🎉 Open [http://localhost:8000](http://localhost:8000) and start exploring!
+
+</div>
+
+---
+
+## 📡 API Reference
+
+<details>
+<summary><b>🔐 Authentication</b></summary>
+
+| Method | Endpoint | Description |
+|:---:|:---|:---|
+| `POST` | `/api/auth/signup` | Register new user |
+| `POST` | `/api/auth/login` | Login & get token |
+| `POST` | `/api/auth/logout` | Logout |
+| `GET` | `/api/auth/me` | Get current user |
+
+</details>
+
+<details>
+<summary><b>🧮 Calculators</b></summary>
+
+| Method | Endpoint | Description |
+|:---:|:---|:---|
+| `POST` | `/api/calculator/future-value` | Compound interest |
+| `POST` | `/api/calculator/loan-emi` | EMI calculation |
+| `POST` | `/api/calculator/savings-plan` | Savings growth |
+| `POST` | `/api/calculator/mortgage` | Mortgage payments |
+| `POST` | `/api/calculator/investment-return` | ROI calculation |
+
+</details>
+
+<details>
+<summary><b>🤖 AI Chat</b></summary>
+
+| Method | Endpoint | Description |
+|:---:|:---|:---|
+| `POST` | `/api/chat/ask` | Ask financial question |
+| `GET` | `/api/chat/history` | Get chat history |
+
+</details>
+
+---
+
+## 🤖 AI Configuration
+
+The AI assistant uses **RAG (Retrieval Augmented Generation)** for accurate financial advice:
+
+| Mode | Description |
+|:---:|:---|
+| **Basic** | Pattern-matching fallback responses (no API key needed) |
+| **Full AI** | GPT-powered with context retrieval (requires OpenAI key) |
+
 ```bash
-uvicorn main:app --reload
+# To enable full AI capabilities:
+# Add to your .env file:
+OPENAI_API_KEY=your-openai-api-key-here
 ```
 
-Visit: http://localhost:8000
+---
 
-## API Endpoints
+## 🎨 Screenshots
 
-### Authentication
-- `POST /api/auth/signup` - Register new user
-- `POST /api/auth/login` - Login and get token
-- `POST /api/auth/logout` - Logout
-- `GET /api/auth/me` - Get current user
+<div align="center">
 
-### Calculators
-- `POST /api/calculator/future-value` - Calculate compound interest
-- `POST /api/calculator/loan-emi` - Calculate EMI
-- `POST /api/calculator/savings-plan` - Calculate savings growth
-- `POST /api/calculator/mortgage` - Calculate mortgage payments
-- `POST /api/calculator/investment-return` - Calculate investment returns
+| Feature | Preview |
+|:---:|:---:|
+| 🏠 **Dashboard** | Modern glassmorphism design |
+| 🧮 **Calculators** | Interactive financial tools |
+| 💬 **AI Chat** | Real-time financial guidance |
+| 📱 **Responsive** | Works on all devices |
 
-### AI Chat
-- `POST /api/chat/ask` - Ask a financial question
-- `GET /api/chat/history` - Get chat history
+</div>
 
-## RAG Configuration
+---
 
-The AI assistant uses RAG (Retrieval Augmented Generation) to provide accurate financial advice:
+## 🤝 Contributing
 
-1. **Without OpenAI Key**: Uses fallback responses based on pattern matching
-2. **With OpenAI Key**: Full GPT-powered responses with context retrieval
+Contributions are always welcome! 
 
-To enable full RAG:
-1. Get an OpenAI API key from https://platform.openai.com
-2. Add to `.env`: `OPENAI_API_KEY=your-key-here`
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## Development
+---
 
-```bash
-# Run with auto-reload
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
+## 📄 License
 
-# Run tests (future)
-pytest
-```
+Distributed under the **MIT License**. See `LICENSE` for more information.
 
-## Screenshots
+---
 
-The application features a modern dark theme with:
-- Glassmorphism card effects
-- Gradient text and buttons
-- Responsive design for all devices
-- Smooth animations and transitions
+<div align="center">
 
-## License
+## 👨‍💻 Author
 
-MIT License - Feel free to use for educational purposes.
+<img src="https://github.com/Piyu242005.png" width="100" style="border-radius: 50%">
 
-## Authors
+### **Piyush Ramteke**
+*Founder & Developer*
 
-- Piyush Ramteke - Founder & Developer
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Piyu242005)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/piyu24)
+[![Instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/my.life_24143/)
+
+---
+
+<p align="center">
+  <b>⭐ Star this repo if you found it helpful! ⭐</b>
+</p>
+
+<p align="center">
+  Made with ❤️ by Piyu | © 2026 Finology
+</p>
+
+</div>
