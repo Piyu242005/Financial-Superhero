@@ -1,0 +1,290 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-12">
+    <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold mb-4">
+            Financial <span class="gradient-text">Calculators</span>
+        </h1>
+        <p class="text-gray-400 max-w-2xl mx-auto">
+            Plan your financial future with our powerful calculators. From EMI to investments, we've got you covered.
+        </p>
+    </div>
+    
+    <!-- Calculator Tabs -->
+    <div class="max-w-4xl mx-auto" x-data="{ activeTab: 'future-value' }">
+        <!-- Tab Buttons -->
+        <div class="tabs tabs-boxed bg-base-200/50 p-2 rounded-2xl mb-8 flex flex-wrap justify-center gap-2">
+            <button @click="activeTab = 'future-value'" 
+                    :class="activeTab === 'future-value' ? 'tab-active bg-gradient-to-r from-green-400 to-blue-500' : ''"
+                    class="tab tab-lg">
+                <i class='bx bx-trending-up mr-2'></i> Future Value
+            </button>
+            <button @click="activeTab = 'emi'" 
+                    :class="activeTab === 'emi' ? 'tab-active bg-gradient-to-r from-green-400 to-blue-500' : ''"
+                    class="tab tab-lg">
+                <i class='bx bx-credit-card mr-2'></i> EMI
+            </button>
+            <button @click="activeTab = 'savings'" 
+                    :class="activeTab === 'savings' ? 'tab-active bg-gradient-to-r from-green-400 to-blue-500' : ''"
+                    class="tab tab-lg">
+                <i class='bx bx-wallet mr-2'></i> Savings Plan
+            </button>
+            <button @click="activeTab = 'mortgage'" 
+                    :class="activeTab === 'mortgage' ? 'tab-active bg-gradient-to-r from-green-400 to-blue-500' : ''"
+                    class="tab tab-lg">
+                <i class='bx bx-home mr-2'></i> Mortgage
+            </button>
+            <button @click="activeTab = 'investment'" 
+                    :class="activeTab === 'investment' ? 'tab-active bg-gradient-to-r from-green-400 to-blue-500' : ''"
+                    class="tab tab-lg">
+                <i class='bx bx-line-chart mr-2'></i> Investment
+            </button>
+        </div>
+        
+        <!-- Future Value Calculator -->
+        <div x-show="activeTab === 'future-value'" x-transition class="card glass-card">
+            <div class="card-body">
+                <h2 class="card-title text-2xl mb-6">
+                    <i class='bx bx-trending-up text-green-400'></i>
+                    Future Value Calculator
+                </h2>
+                <form id="futureValueForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="form-control">
+                        <label class="label"><span class="label-text">Initial Investment (₹)</span></label>
+                        <input type="number" name="principal" class="input input-bordered" placeholder="100000" required min="1" />
+                    </div>
+                    <div class="form-control">
+                        <label class="label"><span class="label-text">Annual Interest Rate (%)</span></label>
+                        <input type="number" name="rate" class="input input-bordered" placeholder="12" required min="0" max="100" step="0.1" />
+                    </div>
+                    <div class="form-control">
+                        <label class="label"><span class="label-text">Time Period (Years)</span></label>
+                        <input type="number" name="time" class="input input-bordered" placeholder="10" required min="1" />
+                    </div>
+                    <div class="form-control">
+                        <label class="label"><span class="label-text">Compounding Frequency</span></label>
+                        <select name="compounds_per_year" class="select select-bordered">
+                            <option value="1">Annually</option>
+                            <option value="2">Semi-Annually</option>
+                            <option value="4">Quarterly</option>
+                            <option value="12" selected>Monthly</option>
+                            <option value="365">Daily</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-2">
+                        <button type="submit" class="btn btn-primary bg-gradient-to-r from-green-400 to-blue-500 border-none">
+                            <i class='bx bx-calculator'></i> Calculate
+                        </button>
+                    </div>
+                </form>
+                <div id="futureValueResult" class="hidden mt-6 p-6 rounded-xl bg-base-200/50"></div>
+            </div>
+        </div>
+        
+        <!-- EMI Calculator -->
+        <div x-show="activeTab === 'emi'" x-transition class="card glass-card">
+            <div class="card-body">
+                <h2 class="card-title text-2xl mb-6">
+                    <i class='bx bx-credit-card text-purple-400'></i>
+                    Loan EMI Calculator
+                </h2>
+                <form id="emiForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="form-control">
+                        <label class="label"><span class="label-text">Loan Amount (₹)</span></label>
+                        <input type="number" name="principal" class="input input-bordered" placeholder="500000" required min="1" />
+                    </div>
+                    <div class="form-control">
+                        <label class="label"><span class="label-text">Annual Interest Rate (%)</span></label>
+                        <input type="number" name="rate" class="input input-bordered" placeholder="8.5" required min="0" max="100" step="0.1" />
+                    </div>
+                    <div class="form-control md:col-span-2">
+                        <label class="label"><span class="label-text">Loan Tenure (Months)</span></label>
+                        <input type="number" name="tenure_months" class="input input-bordered" placeholder="60" required min="1" />
+                    </div>
+                    <div class="md:col-span-2">
+                        <button type="submit" class="btn btn-primary bg-gradient-to-r from-purple-400 to-pink-500 border-none">
+                            <i class='bx bx-calculator'></i> Calculate EMI
+                        </button>
+                    </div>
+                </form>
+                <div id="emiResult" class="hidden mt-6 p-6 rounded-xl bg-base-200/50"></div>
+            </div>
+        </div>
+        
+        <!-- Savings Plan Calculator -->
+        <div x-show="activeTab === 'savings'" x-transition class="card glass-card">
+            <div class="card-body">
+                <h2 class="card-title text-2xl mb-6">
+                    <i class='bx bx-wallet text-cyan-400'></i>
+                    Savings Plan Calculator
+                </h2>
+                <form id="savingsForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="form-control">
+                        <label class="label"><span class="label-text">Initial Savings (₹)</span></label>
+                        <input type="number" name="initial_savings" class="input input-bordered" placeholder="50000" required min="0" />
+                    </div>
+                    <div class="form-control">
+                        <label class="label"><span class="label-text">Annual Contribution (₹)</span></label>
+                        <input type="number" name="annual_contribution" class="input input-bordered" placeholder="60000" required min="0" />
+                    </div>
+                    <div class="form-control">
+                        <label class="label"><span class="label-text">Expected Return Rate (%)</span></label>
+                        <input type="number" name="rate" class="input input-bordered" placeholder="12" required min="0" max="100" step="0.1" />
+                    </div>
+                    <div class="form-control">
+                        <label class="label"><span class="label-text">Investment Period (Years)</span></label>
+                        <input type="number" name="years" class="input input-bordered" placeholder="20" required min="1" />
+                    </div>
+                    <div class="md:col-span-2">
+                        <button type="submit" class="btn btn-primary bg-gradient-to-r from-cyan-400 to-blue-500 border-none">
+                            <i class='bx bx-calculator'></i> Calculate Savings
+                        </button>
+                    </div>
+                </form>
+                <div id="savingsResult" class="hidden mt-6 p-6 rounded-xl bg-base-200/50"></div>
+            </div>
+        </div>
+        
+        <!-- Mortgage Calculator -->
+        <div x-show="activeTab === 'mortgage'" x-transition class="card glass-card">
+            <div class="card-body">
+                <h2 class="card-title text-2xl mb-6">
+                    <i class='bx bx-home text-orange-400'></i>
+                    Mortgage Calculator
+                </h2>
+                <form id="mortgageForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="form-control">
+                        <label class="label"><span class="label-text">Home Price (₹)</span></label>
+                        <input type="number" name="home_price" class="input input-bordered" placeholder="5000000" required min="1" />
+                    </div>
+                    <div class="form-control">
+                        <label class="label"><span class="label-text">Down Payment (₹)</span></label>
+                        <input type="number" name="down_payment" class="input input-bordered" placeholder="1000000" required min="0" />
+                    </div>
+                    <div class="form-control">
+                        <label class="label"><span class="label-text">Interest Rate (%)</span></label>
+                        <input type="number" name="rate" class="input input-bordered" placeholder="8.5" required min="0" max="100" step="0.1" />
+                    </div>
+                    <div class="form-control">
+                        <label class="label"><span class="label-text">Loan Tenure (Years)</span></label>
+                        <input type="number" name="tenure_years" class="input input-bordered" placeholder="20" required min="1" />
+                    </div>
+                    <div class="form-control">
+                        <label class="label"><span class="label-text">Property Tax Rate (%)</span></label>
+                        <input type="number" name="property_tax_rate" class="input input-bordered" placeholder="1" value="1" min="0" step="0.1" />
+                    </div>
+                    <div class="form-control">
+                        <label class="label"><span class="label-text">Insurance Rate (%)</span></label>
+                        <input type="number" name="insurance_rate" class="input input-bordered" placeholder="0.5" value="0.5" min="0" step="0.1" />
+                    </div>
+                    <div class="md:col-span-2">
+                        <button type="submit" class="btn btn-primary bg-gradient-to-r from-orange-400 to-red-500 border-none">
+                            <i class='bx bx-calculator'></i> Calculate Mortgage
+                        </button>
+                    </div>
+                </form>
+                <div id="mortgageResult" class="hidden mt-6 p-6 rounded-xl bg-base-200/50"></div>
+            </div>
+        </div>
+        
+        <!-- Investment Return Calculator -->
+        <div x-show="activeTab === 'investment'" x-transition class="card glass-card">
+            <div class="card-body">
+                <h2 class="card-title text-2xl mb-6">
+                    <i class='bx bx-line-chart text-green-400'></i>
+                    Investment Return Calculator
+                </h2>
+                <form id="investmentForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="form-control">
+                        <label class="label"><span class="label-text">Initial Investment (₹)</span></label>
+                        <input type="number" name="principal" class="input input-bordered" placeholder="100000" required min="1" />
+                    </div>
+                    <div class="form-control">
+                        <label class="label"><span class="label-text">Expected Annual Return (%)</span></label>
+                        <input type="number" name="rate" class="input input-bordered" placeholder="15" required min="0" max="100" step="0.1" />
+                    </div>
+                    <div class="form-control md:col-span-2">
+                        <label class="label"><span class="label-text">Investment Period (Years)</span></label>
+                        <input type="number" name="years" class="input input-bordered" placeholder="10" required min="1" />
+                    </div>
+                    <div class="md:col-span-2">
+                        <button type="submit" class="btn btn-primary bg-gradient-to-r from-green-400 to-teal-500 border-none">
+                            <i class='bx bx-calculator'></i> Calculate Returns
+                        </button>
+                    </div>
+                </form>
+                <div id="investmentResult" class="hidden mt-6 p-6 rounded-xl bg-base-200/50"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function formatCurrency(amount) {
+    return new Intl.NumberFormat('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        maximumFractionDigits: 0
+    }).format(amount);
+}
+
+function showResult(elementId, data) {
+    const resultDiv = document.getElementById(elementId);
+    resultDiv.classList.remove('hidden');
+    resultDiv.innerHTML = `
+        <div class="text-lg font-semibold mb-4 text-green-400">${data.summary}</div>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+            ${Object.entries(data.result)
+                .filter(([key]) => !['yearly_breakdown', 'rate', 'time_years', 'years', 'tenure_months', 'tenure_years', 'compounds_per_year'].includes(key))
+                .map(([key, value]) => `
+                    <div class="bg-base-300/50 p-4 rounded-lg">
+                        <div class="text-sm text-gray-400">${key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</div>
+                        <div class="text-xl font-bold">${typeof value === 'number' ? formatCurrency(value) : value}</div>
+                    </div>
+                `).join('')}
+        </div>
+    `;
+}
+
+async function handleCalculator(formId, endpoint, resultId) {
+    document.getElementById(formId).addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+        
+        // Convert to numbers
+        for (const key in data) {
+            data[key] = parseFloat(data[key]);
+        }
+        
+        try {
+            const response = await fetch(`/api/calculator/${endpoint}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            
+            const result = await response.json();
+            
+            if (!response.ok) {
+                throw new Error(result.detail || 'Calculation failed');
+            }
+            
+            showResult(resultId, result);
+        } catch (error) {
+            alert('Error: ' + error.message);
+        }
+    });
+}
+
+// Initialize all calculators
+handleCalculator('futureValueForm', 'future-value', 'futureValueResult');
+handleCalculator('emiForm', 'loan-emi', 'emiResult');
+handleCalculator('savingsForm', 'savings-plan', 'savingsResult');
+handleCalculator('mortgageForm', 'mortgage', 'mortgageResult');
+handleCalculator('investmentForm', 'investment-return', 'investmentResult');
+</script>
+{% endblock %}

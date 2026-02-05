@@ -1,0 +1,419 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-12">
+    <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold mb-4">
+            Learn <span class="gradient-text">Investing</span>
+        </h1>
+        <p class="text-gray-400 max-w-2xl mx-auto">
+            Start your journey to financial freedom with our comprehensive guides and tutorials.
+        </p>
+    </div>
+    
+    <!-- Learning Path -->
+    <div class="max-w-5xl mx-auto">
+        <!-- Beginner Section -->
+        <div class="mb-16">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="badge badge-lg badge-success">Beginner</div>
+                <h2 class="text-2xl font-bold">Getting Started</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="card glass-card hover:scale-105 transition-transform cursor-pointer" onclick="showContent('demat')">
+                    <div class="card-body">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="badge badge-outline badge-success">Step 1</div>
+                            <span class="text-sm text-gray-400">10 min read</span>
+                        </div>
+                        <h3 class="card-title text-lg">Open a Demat Account</h3>
+                        <p class="text-gray-400 text-sm">Learn what a Demat account is and how to open one with popular brokers in India.</p>
+                        <div class="card-actions justify-end mt-4">
+                            <i class='bx bx-right-arrow-alt text-green-400 text-xl'></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card glass-card hover:scale-105 transition-transform cursor-pointer" onclick="showContent('basics')">
+                    <div class="card-body">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="badge badge-outline badge-success">Step 2</div>
+                            <span class="text-sm text-gray-400">15 min read</span>
+                        </div>
+                        <h3 class="card-title text-lg">Stock Market Basics</h3>
+                        <p class="text-gray-400 text-sm">Understand BSE, NSE, Sensex, Nifty and how the stock market works.</p>
+                        <div class="card-actions justify-end mt-4">
+                            <i class='bx bx-right-arrow-alt text-green-400 text-xl'></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card glass-card hover:scale-105 transition-transform cursor-pointer" onclick="showContent('sip')">
+                    <div class="card-body">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="badge badge-outline badge-success">Step 3</div>
+                            <span class="text-sm text-gray-400">12 min read</span>
+                        </div>
+                        <h3 class="card-title text-lg">SIP & Mutual Funds</h3>
+                        <p class="text-gray-400 text-sm">Start your investment journey with systematic investment plans.</p>
+                        <div class="card-actions justify-end mt-4">
+                            <i class='bx bx-right-arrow-alt text-green-400 text-xl'></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Intermediate Section -->
+        <div class="mb-16">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="badge badge-lg badge-warning">Intermediate</div>
+                <h2 class="text-2xl font-bold">Building Knowledge</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="card glass-card hover:scale-105 transition-transform cursor-pointer" onclick="showContent('strategies')">
+                    <div class="card-body">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="badge badge-outline badge-warning">Strategy</div>
+                            <span class="text-sm text-gray-400">20 min read</span>
+                        </div>
+                        <h3 class="card-title text-lg">Investment Strategies</h3>
+                        <p class="text-gray-400 text-sm">Value investing, growth investing, and dividend strategies explained.</p>
+                        <div class="card-actions justify-end mt-4">
+                            <i class='bx bx-right-arrow-alt text-orange-400 text-xl'></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card glass-card hover:scale-105 transition-transform cursor-pointer" onclick="showContent('risk')">
+                    <div class="card-body">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="badge badge-outline badge-warning">Risk</div>
+                            <span class="text-sm text-gray-400">15 min read</span>
+                        </div>
+                        <h3 class="card-title text-lg">Risk Management</h3>
+                        <p class="text-gray-400 text-sm">Learn diversification, stop-loss, and portfolio balancing techniques.</p>
+                        <div class="card-actions justify-end mt-4">
+                            <i class='bx bx-right-arrow-alt text-orange-400 text-xl'></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card glass-card hover:scale-105 transition-transform cursor-pointer" onclick="showContent('tax')">
+                    <div class="card-body">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="badge badge-outline badge-warning">Tax</div>
+                            <span class="text-sm text-gray-400">18 min read</span>
+                        </div>
+                        <h3 class="card-title text-lg">Tax Planning</h3>
+                        <p class="text-gray-400 text-sm">Section 80C, 80D, and capital gains tax - save more, invest more.</p>
+                        <div class="card-actions justify-end mt-4">
+                            <i class='bx bx-right-arrow-alt text-orange-400 text-xl'></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Content Modal -->
+        <dialog id="contentModal" class="modal">
+            <div class="modal-box max-w-3xl glass-card">
+                <form method="dialog">
+                    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                </form>
+                <h3 id="modalTitle" class="font-bold text-2xl mb-4"></h3>
+                <div id="modalContent" class="prose prose-invert max-w-none"></div>
+            </div>
+            <form method="dialog" class="modal-backdrop">
+                <button>close</button>
+            </form>
+        </dialog>
+        
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mt-16">
+            <div class="stat glass-card rounded-2xl">
+                <div class="stat-figure text-green-400">
+                    <i class='bx bx-book text-3xl'></i>
+                </div>
+                <div class="stat-title">Articles</div>
+                <div class="stat-value text-green-400">12+</div>
+            </div>
+            <div class="stat glass-card rounded-2xl">
+                <div class="stat-figure text-purple-400">
+                    <i class='bx bx-video text-3xl'></i>
+                </div>
+                <div class="stat-title">Videos</div>
+                <div class="stat-value text-purple-400">Coming</div>
+            </div>
+            <div class="stat glass-card rounded-2xl">
+                <div class="stat-figure text-blue-400">
+                    <i class='bx bx-calculator text-3xl'></i>
+                </div>
+                <div class="stat-title">Tools</div>
+                <div class="stat-value text-blue-400">5</div>
+            </div>
+            <div class="stat glass-card rounded-2xl">
+                <div class="stat-figure text-orange-400">
+                    <i class='bx bx-bot text-3xl'></i>
+                </div>
+                <div class="stat-title">AI Assistant</div>
+                <div class="stat-value text-orange-400">24/7</div>
+            </div>
+        </div>
+        
+        <!-- CTA -->
+        <div class="text-center mt-16">
+            <p class="text-gray-400 mb-4">Have a specific question?</p>
+            <a href="/chat" class="btn btn-lg bg-gradient-to-r from-green-400 to-blue-500 border-none text-white">
+                <i class='bx bx-bot text-xl'></i>
+                Ask AI Assistant
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+const contentData = {
+    demat: {
+        title: "How to Open a Demat Account",
+        content: `
+            <h4 class="text-green-400">What is a Demat Account?</h4>
+            <p>A Demat (dematerialized) account holds your shares and securities in electronic form, just like a bank account holds your money. It's mandatory for trading in the Indian stock market.</p>
+            
+            <h4 class="text-green-400 mt-6">Documents Required</h4>
+            <ul>
+                <li><strong>PAN Card</strong> - Mandatory for all investors</li>
+                <li><strong>Aadhaar Card</strong> - For e-KYC verification</li>
+                <li><strong>Bank Account</strong> - Linked for fund transfers</li>
+                <li><strong>Passport Size Photos</strong> - Recent photographs</li>
+                <li><strong>Income Proof</strong> - For F&O trading (optional)</li>
+            </ul>
+            
+            <h4 class="text-green-400 mt-6">Popular Brokers in India</h4>
+            <div class="grid grid-cols-2 gap-4 mt-2">
+                <div class="p-4 bg-base-200/50 rounded-lg">
+                    <strong>Zerodha</strong><br>
+                    <span class="text-sm text-gray-400">₹200 account opening, ₹0 equity delivery</span>
+                </div>
+                <div class="p-4 bg-base-200/50 rounded-lg">
+                    <strong>Groww</strong><br>
+                    <span class="text-sm text-gray-400">Free account, beginner friendly</span>
+                </div>
+                <div class="p-4 bg-base-200/50 rounded-lg">
+                    <strong>Upstox</strong><br>
+                    <span class="text-sm text-gray-400">₹0 delivery, good for beginners</span>
+                </div>
+                <div class="p-4 bg-base-200/50 rounded-lg">
+                    <strong>Angel One</strong><br>
+                    <span class="text-sm text-gray-400">Research tools, advisory services</span>
+                </div>
+            </div>
+            
+            <h4 class="text-green-400 mt-6">Steps to Open</h4>
+            <ol>
+                <li>Choose a broker and visit their website/app</li>
+                <li>Fill the online application form</li>
+                <li>Complete e-KYC with Aadhaar</li>
+                <li>Upload required documents</li>
+                <li>Sign digitally and submit</li>
+                <li>Account activated in 24-48 hours</li>
+            </ol>
+        `
+    },
+    basics: {
+        title: "Stock Market Basics",
+        content: `
+            <h4 class="text-green-400">What is the Stock Market?</h4>
+            <p>The stock market is a collection of exchanges where stocks (pieces of ownership in businesses) are bought and sold. When you buy a stock, you own a small piece of that company.</p>
+            
+            <h4 class="text-green-400 mt-6">Indian Stock Exchanges</h4>
+            <div class="grid grid-cols-2 gap-4 mt-2">
+                <div class="p-4 bg-base-200/50 rounded-lg">
+                    <strong>BSE (Bombay Stock Exchange)</strong><br>
+                    <span class="text-sm text-gray-400">Asia's oldest (1875), 5000+ listed companies</span>
+                </div>
+                <div class="p-4 bg-base-200/50 rounded-lg">
+                    <strong>NSE (National Stock Exchange)</strong><br>
+                    <span class="text-sm text-gray-400">Largest by volume, electronic trading pioneer</span>
+                </div>
+            </div>
+            
+            <h4 class="text-green-400 mt-6">Key Indices</h4>
+            <ul>
+                <li><strong>Sensex</strong> - Top 30 companies on BSE</li>
+                <li><strong>Nifty 50</strong> - Top 50 companies on NSE</li>
+                <li><strong>Nifty Bank</strong> - Banking sector index</li>
+                <li><strong>Nifty IT</strong> - IT sector index</li>
+            </ul>
+            
+            <h4 class="text-green-400 mt-6">Market Timings</h4>
+            <p><strong>Pre-open:</strong> 9:00 AM - 9:15 AM<br>
+            <strong>Regular:</strong> 9:15 AM - 3:30 PM<br>
+            <strong>Post-close:</strong> 3:40 PM - 4:00 PM</p>
+            
+            <h4 class="text-green-400 mt-6">Types of Orders</h4>
+            <ul>
+                <li><strong>Market Order</strong> - Buy/sell at current market price</li>
+                <li><strong>Limit Order</strong> - Buy/sell at a specific price</li>
+                <li><strong>Stop Loss</strong> - Automatically sell to limit losses</li>
+            </ul>
+        `
+    },
+    sip: {
+        title: "SIP & Mutual Funds",
+        content: `
+            <h4 class="text-green-400">What is SIP?</h4>
+            <p>SIP (Systematic Investment Plan) is a method of investing a fixed amount regularly in mutual funds. It's the easiest way to start investing with as little as ₹500 per month.</p>
+            
+            <h4 class="text-green-400 mt-6">Benefits of SIP</h4>
+            <ul>
+                <li><strong>Rupee Cost Averaging</strong> - Buy more units when prices are low</li>
+                <li><strong>Power of Compounding</strong> - Small amounts grow significantly over time</li>
+                <li><strong>Discipline</strong> - Automated investing removes emotions</li>
+                <li><strong>Flexibility</strong> - Start, stop, or modify anytime</li>
+            </ul>
+            
+            <h4 class="text-green-400 mt-6">Types of Mutual Funds</h4>
+            <div class="space-y-2">
+                <div class="p-3 bg-base-200/50 rounded-lg">
+                    <strong>Equity Funds</strong> - Invest in stocks, higher risk & returns
+                </div>
+                <div class="p-3 bg-base-200/50 rounded-lg">
+                    <strong>Debt Funds</strong> - Invest in bonds, lower risk
+                </div>
+                <div class="p-3 bg-base-200/50 rounded-lg">
+                    <strong>Hybrid Funds</strong> - Mix of equity and debt
+                </div>
+                <div class="p-3 bg-base-200/50 rounded-lg">
+                    <strong>Index Funds</strong> - Track Nifty/Sensex, low cost
+                </div>
+                <div class="p-3 bg-base-200/50 rounded-lg">
+                    <strong>ELSS</strong> - Tax saving funds under 80C
+                </div>
+            </div>
+            
+            <h4 class="text-green-400 mt-6">SIP Example</h4>
+            <p>₹5,000/month SIP at 12% return for 20 years:<br>
+            <strong>Total Investment:</strong> ₹12,00,000<br>
+            <strong>Estimated Returns:</strong> ₹37,00,000<br>
+            <strong>Total Value:</strong> ₹49,00,000</p>
+        `
+    },
+    strategies: {
+        title: "Investment Strategies",
+        content: `
+            <h4 class="text-green-400">Value Investing</h4>
+            <p>Buy stocks that are undervalued compared to their intrinsic worth. Made famous by Warren Buffett.</p>
+            <ul>
+                <li>Look for low P/E ratio stocks</li>
+                <li>Strong fundamentals (low debt, good cash flow)</li>
+                <li>Long-term holding (5+ years)</li>
+            </ul>
+            
+            <h4 class="text-green-400 mt-6">Growth Investing</h4>
+            <p>Focus on companies with high growth potential, even if currently expensive.</p>
+            <ul>
+                <li>Technology and emerging sectors</li>
+                <li>High revenue/earnings growth</li>
+                <li>Accept higher valuations</li>
+            </ul>
+            
+            <h4 class="text-green-400 mt-6">Dividend Investing</h4>
+            <p>Invest in companies that pay regular dividends for passive income.</p>
+            <ul>
+                <li>Stable, mature companies</li>
+                <li>Lower volatility</li>
+                <li>Regular income stream</li>
+            </ul>
+            
+            <h4 class="text-green-400 mt-6">Index Investing</h4>
+            <p>Simply invest in index funds that track Nifty 50 or Sensex.</p>
+            <ul>
+                <li>Lowest cost (0.1-0.2% expense ratio)</li>
+                <li>Automatic diversification</li>
+                <li>Beats most active fund managers</li>
+            </ul>
+        `
+    },
+    risk: {
+        title: "Risk Management",
+        content: `
+            <h4 class="text-green-400">The Golden Rules</h4>
+            <ol>
+                <li><strong>Never invest more than you can afford to lose</strong></li>
+                <li><strong>Build an emergency fund first (6-12 months expenses)</strong></li>
+                <li><strong>Diversify across sectors and asset classes</strong></li>
+            </ol>
+            
+            <h4 class="text-green-400 mt-6">Diversification</h4>
+            <p>Don't put all eggs in one basket. Spread across:</p>
+            <ul>
+                <li><strong>Sectors:</strong> IT, Banking, Pharma, FMCG, Auto</li>
+                <li><strong>Market Cap:</strong> Large cap, Mid cap, Small cap</li>
+                <li><strong>Asset Classes:</strong> Stocks, Bonds, Gold, Real Estate</li>
+                <li><strong>Geography:</strong> India, US markets (through funds)</li>
+            </ul>
+            
+            <h4 class="text-green-400 mt-6">Stop Loss</h4>
+            <p>Set a price at which you'll exit to limit losses. Typically 10-15% below your purchase price.</p>
+            
+            <h4 class="text-green-400 mt-6">Position Sizing</h4>
+            <p>Never put more than 5-10% of your portfolio in a single stock. This limits damage if one pick goes wrong.</p>
+        `
+    },
+    tax: {
+        title: "Tax Planning for Investors",
+        content: `
+            <h4 class="text-green-400">Section 80C - Save up to ₹1.5 Lakh</h4>
+            <ul>
+                <li><strong>ELSS Mutual Funds</strong> - 3 year lock-in, best returns</li>
+                <li><strong>PPF</strong> - 15 year lock-in, safe & tax-free</li>
+                <li><strong>NSC</strong> - 5 year lock-in, guaranteed returns</li>
+                <li><strong>Life Insurance Premiums</strong></li>
+                <li><strong>5-Year Tax-Saving FD</strong></li>
+            </ul>
+            
+            <h4 class="text-green-400 mt-6">Section 80D - Health Insurance</h4>
+            <ul>
+                <li>Self & Family: Up to ₹25,000</li>
+                <li>Parents (below 60): Additional ₹25,000</li>
+                <li>Parents (above 60): Additional ₹50,000</li>
+            </ul>
+            
+            <h4 class="text-green-400 mt-6">Capital Gains Tax</h4>
+            <div class="grid grid-cols-2 gap-4 mt-2">
+                <div class="p-4 bg-base-200/50 rounded-lg">
+                    <strong>Short-Term (< 1 year)</strong><br>
+                    <span class="text-xl text-red-400">15%</span>
+                </div>
+                <div class="p-4 bg-base-200/50 rounded-lg">
+                    <strong>Long-Term (> 1 year)</strong><br>
+                    <span class="text-xl text-green-400">10%</span><br>
+                    <span class="text-sm text-gray-400">Above ₹1 Lakh gain</span>
+                </div>
+            </div>
+            
+            <h4 class="text-green-400 mt-6">Tax-Free Options</h4>
+            <ul>
+                <li>PPF interest is completely tax-free</li>
+                <li>LTCG up to ₹1 Lakh is tax-free</li>
+                <li>Dividends up to ₹10 Lakh (through DDT)</li>
+            </ul>
+        `
+    }
+};
+
+function showContent(topic) {
+    const data = contentData[topic];
+    if (!data) return;
+    
+    document.getElementById('modalTitle').textContent = data.title;
+    document.getElementById('modalContent').innerHTML = data.content;
+    document.getElementById('contentModal').showModal();
+}
+</script>
+{% endblock %}

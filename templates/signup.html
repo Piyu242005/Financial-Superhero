@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center py-12 px-4">
+    <div class="card glass-card w-full max-w-lg">
+        <div class="card-body">
+            <div class="text-center mb-6">
+                <div class="w-20 h-20 rounded-full bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center mx-auto mb-4">
+                    <i class='bx bx-user-plus text-4xl text-white'></i>
+                </div>
+                <h1 class="text-2xl font-bold">Create Account</h1>
+                <p class="text-gray-400">Start your financial journey with Finology</p>
+            </div>
+            
+            <form id="signupForm" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">Full Name</span>
+                        </label>
+                        <input type="text" name="full_name" id="fullName" placeholder="Piyush Ramteke" 
+                               class="input input-bordered w-full" />
+                    </div>
+                    
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">Username <span class="text-red-400">*</span></span>
+                        </label>
+                        <input type="text" name="username" id="username" placeholder="piyush123" 
+                               class="input input-bordered w-full" required minlength="3" />
+                    </div>
+                </div>
+                
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Email <span class="text-red-400">*</span></span>
+                    </label>
+                    <div class="relative">
+                        <input type="email" name="email" id="email" placeholder="piyush@example.com" 
+                               class="input input-bordered w-full pl-10" required />
+                        <i class='bx bx-envelope absolute left-3 top-1/2 -translate-y-1/2 text-gray-400'></i>
+                    </div>
+                </div>
+                
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Phone (Optional)</span>
+                    </label>
+                    <div class="relative">
+                        <input type="tel" name="phone" id="phone" placeholder="+91 9876543210" 
+                               class="input input-bordered w-full pl-10" />
+                        <i class='bx bx-phone absolute left-3 top-1/2 -translate-y-1/2 text-gray-400'></i>
+                    </div>
+                </div>
+                
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Password <span class="text-red-400">*</span></span>
+                    </label>
+                    <div class="relative" x-data="{ showPassword: false }">
+                        <input :type="showPassword ? 'text' : 'password'" name="password" id="password" 
+                               placeholder="Minimum 6 characters" class="input input-bordered w-full pl-10 pr-10" 
+                               required minlength="6" />
+                        <i class='bx bx-lock-alt absolute left-3 top-1/2 -translate-y-1/2 text-gray-400'></i>
+                        <button type="button" @click="showPassword = !showPassword" 
+                                class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white">
+                            <i class='bx' :class="showPassword ? 'bx-show' : 'bx-hide'"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Confirm Password <span class="text-red-400">*</span></span>
+                    </label>
+                    <div class="relative" x-data="{ showPassword: false }">
+                        <input :type="showPassword ? 'text' : 'password'" name="confirmPassword" id="confirmPassword" 
+                               placeholder="Re-enter password" class="input input-bordered w-full pl-10 pr-10" 
+                               required minlength="6" />
+                        <i class='bx bx-lock-alt absolute left-3 top-1/2 -translate-y-1/2 text-gray-400'></i>
+                        <button type="button" @click="showPassword = !showPassword" 
+                                class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white">
+                            <i class='bx' :class="showPassword ? 'bx-show' : 'bx-hide'"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-control">
+                    <label class="cursor-pointer label justify-start gap-3">
+                        <input type="checkbox" id="terms" class="checkbox checkbox-success checkbox-sm" required />
+                        <span class="label-text">
+                            I agree to the <a href="#" class="text-green-400 hover:underline">Terms of Service</a> 
+                            and <a href="#" class="text-green-400 hover:underline">Privacy Policy</a>
+                        </span>
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary w-full bg-gradient-to-r from-green-400 to-blue-500 border-none">
+                    Create Account
+                </button>
+                
+                <div id="signupError" class="alert alert-error hidden">
+                    <i class='bx bx-error-circle'></i>
+                    <span></span>
+                </div>
+                
+                <div id="signupSuccess" class="alert alert-success hidden">
+                    <i class='bx bx-check-circle'></i>
+                    <span></span>
+                </div>
+            </form>
+            
+            <div class="divider text-gray-500">OR</div>
+            
+            <div class="space-y-3">
+                <button class="btn btn-outline w-full">
+                    <i class='bx bxl-google text-xl'></i>
+                    Continue with Google
+                </button>
+            </div>
+            
+            <p class="text-center mt-6 text-gray-400">
+                Already have an account? 
+                <a href="/login" class="text-green-400 hover:underline font-medium">Login</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.getElementById('signupForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const form = e.target;
+    const errorDiv = document.getElementById('signupError');
+    const successDiv = document.getElementById('signupSuccess');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    
+    // Reset messages
+    errorDiv.classList.add('hidden');
+    successDiv.classList.add('hidden');
+    
+    // Validate passwords match
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    
+    if (password !== confirmPassword) {
+        errorDiv.classList.remove('hidden');
+        errorDiv.querySelector('span').textContent = 'Passwords do not match';
+        return;
+    }
+    
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="loading loading-spinner"></span> Creating account...';
+    
+    try {
+        const response = await fetch('/api/auth/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: document.getElementById('email').value,
+                username: document.getElementById('username').value,
+                password: password,
+                full_name: document.getElementById('fullName').value || null,
+                phone: document.getElementById('phone').value || null
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.detail || 'Registration failed');
+        }
+        
+        // Success
+        successDiv.classList.remove('hidden');
+        successDiv.querySelector('span').textContent = 'Account created successfully! Redirecting to login...';
+        
+        setTimeout(() => {
+            window.location.href = '/login';
+        }, 2000);
+        
+    } catch (error) {
+        errorDiv.classList.remove('hidden');
+        errorDiv.querySelector('span').textContent = error.message;
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Create Account';
+    }
+});
+</script>
+{% endblock %}

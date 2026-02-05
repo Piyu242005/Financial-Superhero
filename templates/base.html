@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page_title }}</title>
+    
+    <!-- Tailwind CSS + DaisyUI -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.6.0/dist/full.min.css" rel="stylesheet" type="text/css" />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Boxicons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    
+    <!-- Alpine.js for interactivity -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #00ff88 0%, #00d4ff 50%, #7c3aed 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .glow-green {
+            box-shadow: 0 0 40px rgba(0, 255, 136, 0.3);
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .hero-gradient {
+            background: radial-gradient(ellipse at top, rgba(0, 255, 136, 0.1) 0%, transparent 50%),
+                        radial-gradient(ellipse at bottom right, rgba(124, 58, 237, 0.1) 0%, transparent 50%);
+        }
+    </style>
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="min-h-screen gradient-bg text-white">
+    <!-- Navigation -->
+    <nav class="navbar bg-base-100/50 backdrop-blur-lg sticky top-0 z-50 border-b border-white/10" x-data="{ mobileOpen: false }">
+        <div class="container mx-auto">
+            <div class="flex-1">
+                <a href="/" class="btn btn-ghost text-xl">
+                    <i class='bx bx-trending-up text-green-400 text-2xl'></i>
+                    <span class="gradient-text font-bold">Finology</span>
+                </a>
+            </div>
+            
+            <!-- Desktop Menu -->
+            <div class="flex-none hidden lg:flex">
+                <ul class="menu menu-horizontal px-1 gap-2">
+                    <li><a href="/" class="hover:text-green-400 transition-colors">Home</a></li>
+                    <li><a href="/calculator" class="hover:text-green-400 transition-colors">Calculators</a></li>
+                    <li><a href="/learn" class="hover:text-green-400 transition-colors">Learn</a></li>
+                    <li><a href="/chat" class="hover:text-green-400 transition-colors">
+                        <i class='bx bx-bot'></i> AI Assistant
+                    </a></li>
+                    <li><a href="/about" class="hover:text-green-400 transition-colors">About</a></li>
+                    <li><a href="/contact" class="hover:text-green-400 transition-colors">Contact</a></li>
+                </ul>
+                
+                {% if user %}
+                <div class="dropdown dropdown-end ml-4">
+                    <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar placeholder">
+                        <div class="bg-gradient-to-br from-green-400 to-blue-500 text-white rounded-full w-10">
+                            <span>{{ user.username[0]|upper }}</span>
+                        </div>
+                    </div>
+                    <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-lg glass-card rounded-box w-52">
+                        <li class="menu-title">
+                            <span>{{ user.username }}</span>
+                        </li>
+                        <li><a href="/dashboard"><i class='bx bx-grid-alt'></i> Dashboard</a></li>
+                        <li><a href="/api/auth/logout" onclick="logout(event)"><i class='bx bx-log-out'></i> Logout</a></li>
+                    </ul>
+                </div>
+                {% else %}
+                <div class="flex gap-2 ml-4">
+                    <a href="/login" class="btn btn-ghost btn-sm">Login</a>
+                    <a href="/signup" class="btn btn-primary btn-sm bg-gradient-to-r from-green-400 to-blue-500 border-none">Sign Up</a>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <div class="flex-none lg:hidden">
+                <button class="btn btn-ghost btn-square" @click="mobileOpen = !mobileOpen">
+                    <i class='bx bx-menu text-2xl' x-show="!mobileOpen"></i>
+                    <i class='bx bx-x text-2xl' x-show="mobileOpen" x-cloak></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="absolute top-full left-0 right-0 glass-card lg:hidden" x-show="mobileOpen" x-transition x-cloak>
+            <ul class="menu p-4">
+                <li><a href="/">Home</a></li>
+                <li><a href="/calculator">Calculators</a></li>
+                <li><a href="/learn">Learn</a></li>
+                <li><a href="/chat">AI Assistant</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li class="mt-4">
+                    {% if user %}
+                    <a href="/dashboard" class="btn btn-primary btn-block">Dashboard</a>
+                    {% else %}
+                    <a href="/login" class="btn btn-primary btn-block">Login</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    
+    <!-- Footer -->
+    <footer class="footer footer-center p-10 bg-base-200/50 text-base-content mt-20 border-t border-white/10">
+        <aside>
+            <div class="flex items-center gap-2 mb-4">
+                <i class='bx bx-trending-up text-green-400 text-3xl'></i>
+                <span class="text-2xl font-bold gradient-text">Finology</span>
+            </div>
+            <p class="max-w-md text-gray-400">
+                Empowering you to make smarter financial decisions with AI-powered insights and tools.
+            </p>
+            <div class="mt-4 flex items-center gap-2 text-sm">
+                <span class="text-gray-500">Created with</span>
+                <i class='bx bxs-heart text-red-500 animate-pulse'></i>
+                <span class="text-gray-500">by</span>
+                <span class="font-semibold text-green-400">Piyush Ramteke (Piyu)</span>
+            </div>
+        </aside>
+        <nav>
+            <div class="grid grid-flow-col gap-4">
+                <a class="btn btn-ghost btn-circle" href="#">
+                    <i class='bx bxl-twitter text-2xl'></i>
+                </a>
+                <a class="btn btn-ghost btn-circle" href="#">
+                    <i class='bx bxl-linkedin text-2xl'></i>
+                </a>
+                <a class="btn btn-ghost btn-circle" href="#">
+                    <i class='bx bxl-instagram text-2xl'></i>
+                </a>
+                <a class="btn btn-ghost btn-circle" href="#">
+                    <i class='bx bxl-github text-2xl'></i>
+                </a>
+            </div>
+        </nav>
+        <aside>
+            <p class="text-gray-500">Copyright © 2026 Finology by Piyu - All rights reserved</p>
+        </aside>
+    </footer>
+    
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast toast-end z-50"></div>
+    
+    <script>
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.innerHTML = `<span>${message}</span>`;
+            container.appendChild(alert);
+            setTimeout(() => alert.remove(), 3000);
+        }
+        
+        async function logout(e) {
+            e.preventDefault();
+            await fetch('/api/auth/logout', { method: 'POST' });
+            window.location.href = '/';
+        }
+    </script>
+    
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

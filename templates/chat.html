@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-12">
+    <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold mb-4">
+            AI <span class="gradient-text">Financial Assistant</span>
+        </h1>
+        <p class="text-gray-400 max-w-2xl mx-auto">
+            Ask any financial question and get instant, AI-powered answers based on our comprehensive knowledge base.
+        </p>
+    </div>
+    
+    <div class="max-w-4xl mx-auto">
+        <div class="card glass-card min-h-[600px] flex flex-col">
+            <!-- Chat Messages -->
+            <div class="card-body flex-1 overflow-hidden">
+                <div id="chatMessages" class="flex-1 overflow-y-auto space-y-4 pr-2" style="max-height: 450px;">
+                    <!-- Welcome Message -->
+                    <div class="chat chat-start">
+                        <div class="chat-image avatar">
+                            <div class="w-10 rounded-full bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center">
+                                <i class='bx bx-bot text-white text-xl'></i>
+                            </div>
+                        </div>
+                        <div class="chat-bubble bg-base-200 text-white">
+                            <p class="font-semibold text-green-400 mb-2">Welcome to Finology AI! 🎉</p>
+                            <p>I'm your personal financial assistant. I can help you with:</p>
+                            <ul class="list-disc list-inside mt-2 space-y-1 text-gray-300">
+                                <li>How to start investing in stocks</li>
+                                <li>Understanding mutual funds and SIPs</li>
+                                <li>Tax-saving investment options</li>
+                                <li>EMI and loan calculations</li>
+                                <li>General financial planning tips</li>
+                            </ul>
+                            <p class="mt-3">What would you like to know today?</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Questions -->
+                <div class="flex flex-wrap gap-2 mt-4 pb-4">
+                    <button onclick="askQuestion('How do I start investing in stocks?')" 
+                            class="btn btn-sm btn-outline border-green-400/50 text-green-400 hover:bg-green-400 hover:text-black">
+                        How to start investing?
+                    </button>
+                    <button onclick="askQuestion('What is SIP and how does it work?')" 
+                            class="btn btn-sm btn-outline border-purple-400/50 text-purple-400 hover:bg-purple-400 hover:text-black">
+                        What is SIP?
+                    </button>
+                    <button onclick="askQuestion('How can I save tax under Section 80C?')" 
+                            class="btn btn-sm btn-outline border-blue-400/50 text-blue-400 hover:bg-blue-400 hover:text-black">
+                        Tax saving tips
+                    </button>
+                    <button onclick="askQuestion('What is the difference between Sensex and Nifty?')" 
+                            class="btn btn-sm btn-outline border-orange-400/50 text-orange-400 hover:bg-orange-400 hover:text-black">
+                        Sensex vs Nifty
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Input Area -->
+            <div class="card-body pt-0">
+                <form id="chatForm" class="flex gap-2">
+                    <input type="text" id="chatInput" placeholder="Ask me anything about finance..." 
+                           class="input input-bordered flex-1" autocomplete="off" />
+                    <button type="submit" class="btn btn-primary bg-gradient-to-r from-green-400 to-blue-500 border-none">
+                        <i class='bx bx-send text-xl'></i>
+                    </button>
+                </form>
+                <p class="text-xs text-gray-500 text-center mt-2">
+                    <i class='bx bx-info-circle'></i>
+                    AI responses are for educational purposes. Consult a certified financial advisor for personalized advice.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+const chatMessages = document.getElementById('chatMessages');
+const chatForm = document.getElementById('chatForm');
+const chatInput = document.getElementById('chatInput');
+
+let sessionId = null;
+
+function addMessage(content, isUser = false) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `chat ${isUser ? 'chat-end' : 'chat-start'}`;
+    
+    if (isUser) {
+        messageDiv.innerHTML = `
+            <div class="chat-bubble bg-gradient-to-r from-green-400 to-blue-500 text-white">
+                ${content}
+            </div>
+        `;
+    } else {
+        messageDiv.innerHTML = `
+            <div class="chat-image avatar">
+                <div class="w-10 rounded-full bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center">
+                    <i class='bx bx-bot text-white text-xl'></i>
+                </div>
+            </div>
+            <div class="chat-bubble bg-base-200 text-white">
+                ${content}
+            </div>
+        `;
+    }
+    
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function addLoadingMessage() {
+    const loadingDiv = document.createElement('div');
+    loadingDiv.id = 'loadingMessage';
+    loadingDiv.className = 'chat chat-start';
+    loadingDiv.innerHTML = `
+        <div class="chat-image avatar">
+            <div class="w-10 rounded-full bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center">
+                <i class='bx bx-bot text-white text-xl'></i>
+            </div>
+        </div>
+        <div class="chat-bubble bg-base-200">
+            <span class="loading loading-dots loading-md"></span>
+        </div>
+    `;
+    chatMessages.appendChild(loadingDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function removeLoadingMessage() {
+    const loadingMsg = document.getElementById('loadingMessage');
+    if (loadingMsg) loadingMsg.remove();
+}
+
+async function askQuestion(question) {
+    if (!question.trim()) return;
+    
+    // Add user message
+    addMessage(question, true);
+    chatInput.value = '';
+    
+    // Show loading
+    addLoadingMessage();
+    
+    try {
+        const response = await fetch('/api/chat/ask', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                message: question,
+                session_id: sessionId
+            })
+        });
+        
+        const data = await response.json();
+        
+        removeLoadingMessage();
+        
+        if (!response.ok) {
+            throw new Error(data.detail || 'Failed to get response');
+        }
+        
+        sessionId = data.session_id;
+        
+        // Format the answer with proper HTML
+        let formattedAnswer = data.answer
+            .replace(/\n\n/g, '</p><p>')
+            .replace(/\n/g, '<br>')
+            .replace(/₹/g, '<span class="text-green-400">₹</span>');
+        
+        addMessage(`<p>${formattedAnswer}</p>`);
+        
+    } catch (error) {
+        removeLoadingMessage();
+        addMessage(`<span class="text-red-400">Error: ${error.message}</span>`);
+    }
+}
+
+chatForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    askQuestion(chatInput.value);
+});
+
+// Allow Enter key to submit
+chatInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        askQuestion(chatInput.value);
+    }
+});
+</script>
+{% endblock %}

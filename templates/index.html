@@ -1,0 +1,247 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero min-h-[90vh] hero-gradient">
+    <div class="hero-content text-center">
+        <div class="max-w-4xl">
+            <div class="animate-float mb-8">
+                <i class='bx bx-line-chart text-8xl text-green-400 glow-green rounded-full p-4'></i>
+            </div>
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-6">
+                Your <span class="gradient-text">Financial</span> Superhero
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-400 mb-8 max-w-2xl mx-auto">
+                Make smarter investment decisions with AI-powered insights, powerful calculators, and expert financial guidance.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="/chat" class="btn btn-lg bg-gradient-to-r from-green-400 to-blue-500 border-none text-white hover:scale-105 transition-transform">
+                    <i class='bx bx-bot text-xl'></i>
+                    Try AI Assistant
+                </a>
+                <a href="/calculator" class="btn btn-lg btn-outline border-green-400 text-green-400 hover:bg-green-400 hover:text-black">
+                    <i class='bx bx-calculator text-xl'></i>
+                    Financial Calculators
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-20 px-4">
+    <div class="container mx-auto">
+        <h2 class="text-4xl font-bold text-center mb-4">
+            Powerful <span class="gradient-text">Features</span>
+        </h2>
+        <p class="text-gray-400 text-center mb-12 max-w-2xl mx-auto">
+            Everything you need to take control of your financial future
+        </p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- AI Assistant -->
+            <div class="card glass-card hover:scale-105 transition-transform">
+                <div class="card-body">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-400/20 to-blue-500/20 flex items-center justify-center mb-4">
+                        <i class='bx bx-bot text-4xl text-green-400'></i>
+                    </div>
+                    <h3 class="card-title text-xl">AI Financial Assistant</h3>
+                    <p class="text-gray-400">Get instant answers to your financial questions with our RAG-powered AI chatbot.</p>
+                    <div class="card-actions justify-end mt-4">
+                        <a href="/chat" class="btn btn-ghost btn-sm text-green-400">Try Now <i class='bx bx-right-arrow-alt'></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Calculators -->
+            <div class="card glass-card hover:scale-105 transition-transform">
+                <div class="card-body">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-400/20 to-pink-500/20 flex items-center justify-center mb-4">
+                        <i class='bx bx-calculator text-4xl text-purple-400'></i>
+                    </div>
+                    <h3 class="card-title text-xl">Financial Calculators</h3>
+                    <p class="text-gray-400">EMI, SIP, Future Value, Mortgage - all the tools you need to plan your finances.</p>
+                    <div class="card-actions justify-end mt-4">
+                        <a href="/calculator" class="btn btn-ghost btn-sm text-purple-400">Calculate <i class='bx bx-right-arrow-alt'></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Learning -->
+            <div class="card glass-card hover:scale-105 transition-transform">
+                <div class="card-body">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-400/20 to-red-500/20 flex items-center justify-center mb-4">
+                        <i class='bx bx-book-open text-4xl text-orange-400'></i>
+                    </div>
+                    <h3 class="card-title text-xl">Learn Investing</h3>
+                    <p class="text-gray-400">From basics to advanced strategies, learn how to grow your wealth systematically.</p>
+                    <div class="card-actions justify-end mt-4">
+                        <a href="/learn" class="btn btn-ghost btn-sm text-orange-400">Start Learning <i class='bx bx-right-arrow-alt'></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Portfolio Tracking -->
+            <div class="card glass-card hover:scale-105 transition-transform">
+                <div class="card-body">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-400/20 to-blue-500/20 flex items-center justify-center mb-4">
+                        <i class='bx bx-pie-chart-alt-2 text-4xl text-cyan-400'></i>
+                    </div>
+                    <h3 class="card-title text-xl">Track Portfolio</h3>
+                    <p class="text-gray-400">Monitor your investments and get personalized insights on your portfolio performance.</p>
+                    <div class="card-actions justify-end mt-4">
+                        <span class="badge badge-outline">Coming Soon</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Market News -->
+            <div class="card glass-card hover:scale-105 transition-transform">
+                <div class="card-body">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-yellow-400/20 to-orange-500/20 flex items-center justify-center mb-4">
+                        <i class='bx bx-news text-4xl text-yellow-400'></i>
+                    </div>
+                    <h3 class="card-title text-xl">Market Updates</h3>
+                    <p class="text-gray-400">Stay informed with real-time market news, stock updates, and expert analysis.</p>
+                    <div class="card-actions justify-end mt-4">
+                        <span class="badge badge-outline">Coming Soon</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tax Planning -->
+            <div class="card glass-card hover:scale-105 transition-transform">
+                <div class="card-body">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-400/20 to-teal-500/20 flex items-center justify-center mb-4">
+                        <i class='bx bx-receipt text-4xl text-teal-400'></i>
+                    </div>
+                    <h3 class="card-title text-xl">Tax Planning</h3>
+                    <p class="text-gray-400">Optimize your taxes with smart investment strategies under Section 80C, 80D and more.</p>
+                    <div class="card-actions justify-end mt-4">
+                        <a href="/chat" class="btn btn-ghost btn-sm text-teal-400">Ask AI <i class='bx bx-right-arrow-alt'></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-20 px-4 bg-base-200/30">
+    <div class="container mx-auto">
+        <div class="stats stats-vertical lg:stats-horizontal shadow w-full glass-card">
+            <div class="stat text-center">
+                <div class="stat-figure text-green-400">
+                    <i class='bx bx-user text-4xl'></i>
+                </div>
+                <div class="stat-title">Happy Users</div>
+                <div class="stat-value text-green-400">10K+</div>
+                <div class="stat-desc">Since 2024</div>
+            </div>
+            
+            <div class="stat text-center">
+                <div class="stat-figure text-purple-400">
+                    <i class='bx bx-calculator text-4xl'></i>
+                </div>
+                <div class="stat-title">Calculations</div>
+                <div class="stat-value text-purple-400">50K+</div>
+                <div class="stat-desc">Per Month</div>
+            </div>
+            
+            <div class="stat text-center">
+                <div class="stat-figure text-blue-400">
+                    <i class='bx bx-bot text-4xl'></i>
+                </div>
+                <div class="stat-title">AI Queries</div>
+                <div class="stat-value text-blue-400">25K+</div>
+                <div class="stat-desc">Questions Answered</div>
+            </div>
+            
+            <div class="stat text-center">
+                <div class="stat-figure text-orange-400">
+                    <i class='bx bx-star text-4xl'></i>
+                </div>
+                <div class="stat-title">Rating</div>
+                <div class="stat-value text-orange-400">4.9</div>
+                <div class="stat-desc">User Satisfaction</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-20 px-4">
+    <div class="container mx-auto">
+        <div class="card glass-card p-8 md:p-12 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">
+                Ready to Start Your <span class="gradient-text">Financial Journey</span>?
+            </h2>
+            <p class="text-gray-400 mb-8 max-w-xl mx-auto">
+                Join thousands of users who are already making smarter financial decisions with Finology.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="/signup" class="btn btn-lg bg-gradient-to-r from-green-400 to-blue-500 border-none text-white">
+                    Get Started Free
+                </a>
+                <a href="/learn" class="btn btn-lg btn-ghost">
+                    Learn More
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-20 px-4 bg-base-200/30" x-data="{ openFaq: null }">
+    <div class="container mx-auto max-w-3xl">
+        <h2 class="text-4xl font-bold text-center mb-4">
+            Frequently Asked <span class="gradient-text">Questions</span>
+        </h2>
+        <p class="text-gray-400 text-center mb-12">
+            Got questions? We've got answers.
+        </p>
+        
+        <div class="space-y-4">
+            <div class="collapse collapse-arrow glass-card">
+                <input type="radio" name="faq-accordion" checked="checked" /> 
+                <div class="collapse-title text-xl font-medium">
+                    What is Finology?
+                </div>
+                <div class="collapse-content text-gray-400">
+                    <p>Finology is a comprehensive fintech platform that helps you make smarter financial decisions. We offer AI-powered financial advice, calculators, and educational resources to help you grow your wealth.</p>
+                </div>
+            </div>
+            
+            <div class="collapse collapse-arrow glass-card">
+                <input type="radio" name="faq-accordion" /> 
+                <div class="collapse-title text-xl font-medium">
+                    How does the AI Assistant work?
+                </div>
+                <div class="collapse-content text-gray-400">
+                    <p>Our AI Assistant uses RAG (Retrieval Augmented Generation) technology to provide accurate answers to your financial questions. It's trained on comprehensive financial knowledge including Indian tax laws, investment strategies, and market basics.</p>
+                </div>
+            </div>
+            
+            <div class="collapse collapse-arrow glass-card">
+                <input type="radio" name="faq-accordion" /> 
+                <div class="collapse-title text-xl font-medium">
+                    Is Finology free to use?
+                </div>
+                <div class="collapse-content text-gray-400">
+                    <p>Yes! Basic features including calculators, AI chat, and learning resources are completely free. We may introduce premium features in the future with advanced portfolio tracking and personalized recommendations.</p>
+                </div>
+            </div>
+            
+            <div class="collapse collapse-arrow glass-card">
+                <input type="radio" name="faq-accordion" /> 
+                <div class="collapse-title text-xl font-medium">
+                    How do I start investing?
+                </div>
+                <div class="collapse-content text-gray-400">
+                    <p>Start by opening a Demat account with any broker like Zerodha or Groww. Build an emergency fund first, then begin with SIPs in index funds. Our AI Assistant can guide you through the entire process!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

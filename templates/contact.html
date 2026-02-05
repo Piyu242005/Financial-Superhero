@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-12">
+    <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold mb-4">
+            Get in <span class="gradient-text">Touch</span>
+        </h1>
+        <p class="text-gray-400 max-w-2xl mx-auto">
+            Have questions or feedback? We'd love to hear from you. Reach out to our team.
+        </p>
+    </div>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+        <!-- Contact Info -->
+        <div class="space-y-8">
+            <div class="card glass-card">
+                <div class="card-body">
+                    <h2 class="card-title text-2xl mb-6">Contact Information</h2>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-green-400/20 to-blue-500/20 flex items-center justify-center flex-shrink-0">
+                                <i class='bx bx-map text-2xl text-green-400'></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold mb-1">Address</h3>
+                                <p class="text-gray-400">
+                                    Nagpur, Maharashtra<br>
+                                    India - 440001
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-400/20 to-pink-500/20 flex items-center justify-center flex-shrink-0">
+                                <i class='bx bx-envelope text-2xl text-purple-400'></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold mb-1">Email</h3>
+                                <p class="text-gray-400">
+                                    <a href="mailto:contact@finology.in" class="hover:text-green-400 transition-colors">
+                                        contact@finology.in
+                                    </a><br>
+                                    <a href="mailto:support@finology.in" class="hover:text-green-400 transition-colors">
+                                        support@finology.in
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-400/20 to-cyan-500/20 flex items-center justify-center flex-shrink-0">
+                                <i class='bx bx-phone text-2xl text-blue-400'></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold mb-1">Phone</h3>
+                                <p class="text-gray-400">
+                                    +91 98765 43210<br>
+                                    <span class="text-sm">Mon - Fri, 9am - 6pm IST</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="divider"></div>
+                    
+                    <h3 class="font-semibold mb-4">Follow Us</h3>
+                    <div class="flex gap-3">
+                        <a href="#" class="btn btn-circle btn-ghost glass-card">
+                            <i class='bx bxl-twitter text-2xl'></i>
+                        </a>
+                        <a href="#" class="btn btn-circle btn-ghost glass-card">
+                            <i class='bx bxl-linkedin text-2xl'></i>
+                        </a>
+                        <a href="#" class="btn btn-circle btn-ghost glass-card">
+                            <i class='bx bxl-instagram text-2xl'></i>
+                        </a>
+                        <a href="#" class="btn btn-circle btn-ghost glass-card">
+                            <i class='bx bxl-youtube text-2xl'></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- FAQ Link -->
+            <div class="card glass-card">
+                <div class="card-body">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-400/20 to-red-500/20 flex items-center justify-center flex-shrink-0">
+                            <i class='bx bx-help-circle text-2xl text-orange-400'></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-semibold">Have a Quick Question?</h3>
+                            <p class="text-sm text-gray-400">Try our AI assistant for instant answers</p>
+                        </div>
+                        <a href="/chat" class="btn btn-primary btn-sm bg-gradient-to-r from-green-400 to-blue-500 border-none">
+                            Ask AI
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Contact Form -->
+        <div class="card glass-card">
+            <div class="card-body">
+                <h2 class="card-title text-2xl mb-6">Send us a Message</h2>
+                
+                <form id="contactForm" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text">First Name</span>
+                            </label>
+                            <input type="text" name="firstName" placeholder="Piyush" 
+                                   class="input input-bordered w-full" required />
+                        </div>
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text">Last Name</span>
+                            </label>
+                            <input type="text" name="lastName" placeholder="Ramteke" 
+                                   class="input input-bordered w-full" required />
+                        </div>
+                    </div>
+                    
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">Email</span>
+                        </label>
+                        <input type="email" name="email" placeholder="piyush@example.com" 
+                               class="input input-bordered w-full" required />
+                    </div>
+                    
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">Phone (Optional)</span>
+                        </label>
+                        <input type="tel" name="phone" placeholder="+91 98765 43210" 
+                               class="input input-bordered w-full" />
+                    </div>
+                    
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">Subject</span>
+                        </label>
+                        <select name="subject" class="select select-bordered w-full" required>
+                            <option value="" disabled selected>Select a topic</option>
+                            <option value="general">General Inquiry</option>
+                            <option value="support">Technical Support</option>
+                            <option value="feedback">Feedback</option>
+                            <option value="partnership">Partnership</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">Message</span>
+                        </label>
+                        <textarea name="message" placeholder="How can we help you?" 
+                                  class="textarea textarea-bordered w-full h-32" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-full bg-gradient-to-r from-green-400 to-blue-500 border-none">
+                        <i class='bx bx-send'></i>
+                        Send Message
+                    </button>
+                </form>
+                
+                <div id="formSuccess" class="alert alert-success hidden mt-4">
+                    <i class='bx bx-check-circle'></i>
+                    <span>Thank you! Your message has been sent successfully.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="loading loading-spinner"></span> Sending...';
+    
+    // Simulate form submission (replace with actual API call)
+    setTimeout(() => {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="bx bx-send"></i> Send Message';
+        
+        document.getElementById('formSuccess').classList.remove('hidden');
+        e.target.reset();
+        
+        setTimeout(() => {
+            document.getElementById('formSuccess').classList.add('hidden');
+        }, 5000);
+    }, 1500);
+});
+</script>
+{% endblock %}

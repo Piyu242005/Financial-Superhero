@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-12">
+    <div class="text-center mb-8">
+        <h1 class="text-4xl font-bold mb-4">
+            Welcome, <span class="gradient-text">{{ user.username }}</span>!
+        </h1>
+        <p class="text-gray-400">Your personal financial dashboard</p>
+    </div>
+    
+    <div class="max-w-6xl mx-auto">
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="stat glass-card rounded-2xl">
+                <div class="stat-figure text-green-400">
+                    <i class='bx bx-calculator text-3xl'></i>
+                </div>
+                <div class="stat-title">Calculations</div>
+                <div class="stat-value text-green-400">--</div>
+                <div class="stat-desc">This month</div>
+            </div>
+            <div class="stat glass-card rounded-2xl">
+                <div class="stat-figure text-purple-400">
+                    <i class='bx bx-chat text-3xl'></i>
+                </div>
+                <div class="stat-title">AI Chats</div>
+                <div class="stat-value text-purple-400">--</div>
+                <div class="stat-desc">Questions asked</div>
+            </div>
+            <div class="stat glass-card rounded-2xl">
+                <div class="stat-figure text-blue-400">
+                    <i class='bx bx-book-open text-3xl'></i>
+                </div>
+                <div class="stat-title">Articles Read</div>
+                <div class="stat-value text-blue-400">--</div>
+                <div class="stat-desc">Keep learning!</div>
+            </div>
+            <div class="stat glass-card rounded-2xl">
+                <div class="stat-figure text-orange-400">
+                    <i class='bx bx-trophy text-3xl'></i>
+                </div>
+                <div class="stat-title">Level</div>
+                <div class="stat-value text-orange-400">Beginner</div>
+                <div class="stat-desc">Keep going!</div>
+            </div>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <a href="/calculator" class="card glass-card hover:scale-105 transition-transform">
+                <div class="card-body items-center text-center">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-400/20 to-blue-500/20 flex items-center justify-center mb-2">
+                        <i class='bx bx-calculator text-3xl text-green-400'></i>
+                    </div>
+                    <h3 class="card-title">Financial Calculators</h3>
+                    <p class="text-gray-400 text-sm">EMI, SIP, Future Value & more</p>
+                </div>
+            </a>
+            
+            <a href="/chat" class="card glass-card hover:scale-105 transition-transform">
+                <div class="card-body items-center text-center">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-400/20 to-pink-500/20 flex items-center justify-center mb-2">
+                        <i class='bx bx-bot text-3xl text-purple-400'></i>
+                    </div>
+                    <h3 class="card-title">AI Assistant</h3>
+                    <p class="text-gray-400 text-sm">Ask financial questions</p>
+                </div>
+            </a>
+            
+            <a href="/learn" class="card glass-card hover:scale-105 transition-transform">
+                <div class="card-body items-center text-center">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-400/20 to-red-500/20 flex items-center justify-center mb-2">
+                        <i class='bx bx-book-open text-3xl text-orange-400'></i>
+                    </div>
+                    <h3 class="card-title">Learn Investing</h3>
+                    <p class="text-gray-400 text-sm">Start your journey</p>
+                </div>
+            </a>
+        </div>
+        
+        <!-- Profile Section -->
+        <div class="card glass-card">
+            <div class="card-body">
+                <h2 class="card-title text-2xl mb-6">
+                    <i class='bx bx-user text-green-400'></i>
+                    Profile Information
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="label"><span class="label-text text-gray-400">Username</span></label>
+                        <p class="text-lg font-medium">{{ user.username }}</p>
+                    </div>
+                    <div>
+                        <label class="label"><span class="label-text text-gray-400">Email</span></label>
+                        <p class="text-lg font-medium">{{ user.email }}</p>
+                    </div>
+                    {% if user.full_name %}
+                    <div>
+                        <label class="label"><span class="label-text text-gray-400">Full Name</span></label>
+                        <p class="text-lg font-medium">{{ user.full_name }}</p>
+                    </div>
+                    {% endif %}
+                    <div>
+                        <label class="label"><span class="label-text text-gray-400">Member Since</span></label>
+                        <p class="text-lg font-medium">{{ user.created_at.strftime('%B %d, %Y') }}</p>
+                    </div>
+                </div>
+                
+                <div class="divider"></div>
+                
+                <div class="flex gap-4">
+                    <button class="btn btn-outline btn-sm" disabled>
+                        <i class='bx bx-edit'></i> Edit Profile
+                    </button>
+                    <button class="btn btn-outline btn-sm btn-error" onclick="logout(event)">
+                        <i class='bx bx-log-out'></i> Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

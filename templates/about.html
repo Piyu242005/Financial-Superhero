@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="py-20 px-4 hero-gradient">
+    <div class="container mx-auto text-center">
+        <h1 class="text-5xl font-bold mb-6">
+            About <span class="gradient-text">Finology</span>
+        </h1>
+        <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+            Empowering individuals to make smarter financial decisions through AI-powered insights, 
+            comprehensive tools, and expert guidance.
+        </p>
+    </div>
+</section>
+
+<!-- Mission Section -->
+<section class="py-20 px-4">
+    <div class="container mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="text-3xl font-bold mb-6">Our <span class="gradient-text">Mission</span></h2>
+                <p class="text-gray-400 mb-4">
+                    At Finology, we believe that financial literacy should be accessible to everyone. 
+                    Our mission is to demystify the world of investing and personal finance, 
+                    making it easy for anyone to build wealth and secure their financial future.
+                </p>
+                <p class="text-gray-400">
+                    We combine cutting-edge AI technology with comprehensive financial knowledge to provide 
+                    personalized guidance, powerful calculators, and educational resources that help you 
+                    make informed financial decisions.
+                </p>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="card glass-card text-center p-6">
+                    <i class='bx bx-target-lock text-4xl text-green-400 mb-2'></i>
+                    <h3 class="font-bold">Goal-Based</h3>
+                    <p class="text-sm text-gray-400">Plan for your specific goals</p>
+                </div>
+                <div class="card glass-card text-center p-6">
+                    <i class='bx bx-bot text-4xl text-purple-400 mb-2'></i>
+                    <h3 class="font-bold">AI-Powered</h3>
+                    <p class="text-sm text-gray-400">Smart recommendations</p>
+                </div>
+                <div class="card glass-card text-center p-6">
+                    <i class='bx bx-shield-quarter text-4xl text-blue-400 mb-2'></i>
+                    <h3 class="font-bold">Secure</h3>
+                    <p class="text-sm text-gray-400">Your data is protected</p>
+                </div>
+                <div class="card glass-card text-center p-6">
+                    <i class='bx bx-book-open text-4xl text-orange-400 mb-2'></i>
+                    <h3 class="font-bold">Educational</h3>
+                    <p class="text-sm text-gray-400">Learn while you invest</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Team Section -->
+<section class="py-20 px-4 bg-base-200/30">
+    <div class="container mx-auto">
+        <h2 class="text-4xl font-bold text-center mb-4">
+            Meet Our <span class="gradient-text">Team</span>
+        </h2>
+        <p class="text-gray-400 text-center mb-12 max-w-2xl mx-auto">
+            A passionate team dedicated to making finance accessible and understandable for everyone.
+        </p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Team Member 1 - Piyu -->
+            <div class="card glass-card hover:scale-105 transition-transform">
+                <figure class="px-6 pt-6">
+                    <div class="avatar">
+                        <div class="w-32 rounded-full ring ring-green-400 ring-offset-base-100 ring-offset-2 overflow-hidden">
+                            <img src="/static/images/piyu_new.jpg" alt="Piyush Ramteke" class="w-full h-full object-cover" />
+                        </div>
+                    </div>
+                </figure>
+                <div class="card-body items-center text-center">
+                    <h3 class="card-title">Piyush Ramteke</h3>
+                    <p class="text-green-400 text-sm">Founder & CEO</p>
+                    <p class="text-gray-400 text-sm">Passionate about making financial education accessible to all.</p>
+                    <div class="flex gap-2 mt-2">
+                        <a href="https://www.linkedin.com/in/piyu24" target="_blank" class="btn btn-ghost btn-sm btn-circle">
+                            <i class='bx bxl-linkedin text-xl'></i>
+                        </a>
+                        <a href="https://www.instagram.com/my.life_24143/" target="_blank" class="btn btn-ghost btn-sm btn-circle">
+                            <i class='bx bxl-instagram text-xl'></i>
+                        </a>
+                        <a href="https://github.com/Piyu242005" target="_blank" class="btn btn-ghost btn-sm btn-circle">
+                            <i class='bx bxl-github text-xl'></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Team Member 2 - Suchak -->
+            <div class="card glass-card hover:scale-105 transition-transform">
+                <figure class="px-6 pt-6">
+                    <div class="avatar">
+                        <div class="w-32 rounded-full ring ring-purple-400 ring-offset-base-100 ring-offset-2 overflow-hidden">
+                            <img src="/static/images/suchak.jpg.jpeg" alt="Suchak Kamble" class="w-full h-full object-cover" />
+                        </div>
+                    </div>
+                </figure>
+                <div class="card-body items-center text-center">
+                    <h3 class="card-title">Suchak Kamble</h3>
+                    <p class="text-purple-400 text-sm">Co-Founder & CTO</p>
+                    <p class="text-gray-400 text-sm">Building the technology that powers financial insights.</p>
+                    <div class="flex gap-2 mt-2">
+                        <a href="https://www.linkedin.com/in/suchak-kamble-b34068392/" target="_blank" class="btn btn-ghost btn-sm btn-circle">
+                            <i class='bx bxl-linkedin text-xl'></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Team Member 3 - Sumit -->
+            <div class="card glass-card hover:scale-105 transition-transform">
+                <figure class="px-6 pt-6">
+                    <div class="avatar">
+                        <div class="w-32 rounded-full ring ring-blue-400 ring-offset-base-100 ring-offset-2 overflow-hidden">
+                            <img src="/static/images/sumit.png" alt="Sumit Wasu" class="w-full h-full object-cover" />
+                        </div>
+                    </div>
+                </figure>
+                <div class="card-body items-center text-center">
+                    <h3 class="card-title">Sumit Wasu</h3>
+                    <p class="text-blue-400 text-sm">Head of Product</p>
+                    <p class="text-gray-400 text-sm">Designing intuitive financial tools for everyone.</p>
+                    <div class="flex gap-2 mt-2">
+                        <a href="#" class="btn btn-ghost btn-sm btn-circle">
+                            <i class='bx bxl-linkedin text-xl'></i>
+                        </a>
+                        <a href="#" class="btn btn-ghost btn-sm btn-circle">
+                            <i class='bx bxl-instagram text-xl'></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Team Member 4 - Sarvesh -->
+            <div class="card glass-card hover:scale-105 transition-transform">
+                <figure class="px-6 pt-6">
+                    <div class="avatar">
+                        <div class="w-32 rounded-full ring ring-orange-400 ring-offset-base-100 ring-offset-2 overflow-hidden">
+                            <img src="/static/images/sarvesh.png" alt="Sarvesh" class="w-full h-full object-cover" />
+                        </div>
+                    </div>
+                </figure>
+                <div class="card-body items-center text-center">
+                    <h3 class="card-title">Sarvesh</h3>
+                    <p class="text-orange-400 text-sm">Financial Advisor</p>
+                    <p class="text-gray-400 text-sm">Expert guidance on investments and wealth management.</p>
+                    <div class="flex gap-2 mt-2">
+                        <a href="#" class="btn btn-ghost btn-sm btn-circle">
+                            <i class='bx bxl-linkedin text-xl'></i>
+                        </a>
+                        <a href="#" class="btn btn-ghost btn-sm btn-circle">
+                            <i class='bx bxl-instagram text-xl'></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Values Section -->
+<section class="py-20 px-4">
+    <div class="container mx-auto">
+        <h2 class="text-4xl font-bold text-center mb-12">
+            Our <span class="gradient-text">Values</span>
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="text-center">
+                <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-green-400/20 to-blue-500/20 flex items-center justify-center mx-auto mb-4">
+                    <i class='bx bx-check-shield text-4xl text-green-400'></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2">Transparency</h3>
+                <p class="text-gray-400">
+                    We believe in complete transparency in all financial advice and recommendations we provide.
+                </p>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-400/20 to-pink-500/20 flex items-center justify-center mx-auto mb-4">
+                    <i class='bx bx-bulb text-4xl text-purple-400'></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2">Innovation</h3>
+                <p class="text-gray-400">
+                    We continuously innovate to bring you the latest in fintech and AI-powered financial tools.
+                </p>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-orange-400/20 to-red-500/20 flex items-center justify-center mx-auto mb-4">
+                    <i class='bx bx-heart text-4xl text-orange-400'></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2">Customer First</h3>
+                <p class="text-gray-400">
+                    Your financial success is our priority. Every feature is designed with you in mind.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
